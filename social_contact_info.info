@@ -1,0 +1,4 @@
+name = Social Contact Info
+description = This module helps to display website information using drupal blocks.
+package = Other
+core = 7.x
