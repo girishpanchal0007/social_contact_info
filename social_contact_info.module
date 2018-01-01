@@ -5,12 +5,30 @@
  */
 function social_contact_info_help($path, $arg) {
   switch ($path) {
-  	// Main module help for the block module
+    // Main module help for the block module
     case 'admin/help#block':
       return '<p>' . t('Blocks are boxes of content rendered into an area, or region, of a web page. The default theme Bartik, for example, implements the regions "Sidebar first", "Sidebar second", "Featured", "Content", "Header", "Footer", etc., and a block may appear in any one of these areas. The <a href="@blocks">blocks administration page</a> provides a drag-and-drop interface for assigning a block to a region, and for controlling the order of blocks within regions.', array(
         '@blocks' => url('admin/structure/block'),
       )) . '</p>';
   }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function social_contact_info_theme($existing, $type, $theme, $path) {
+  return array(
+    'social_contact_info_contact_social_detail_list' => array(
+      'render element' => 'element',
+    ),
+    'social_contact_info_contact_social_detail' => array(
+      'variables' => array(
+        'contact_detail' => array(),
+        'social_detail' => array(),
+      ),
+    ),
+    //'template' => 'social-contact-detail',
+  );
 }
 
 /**
@@ -32,15 +50,26 @@ function social_contact_info_block_info() {
 function social_contact_info_block_configure($delta = '') {
   // Declare $form array.
   $form = array();
+  
+  // Get variable for contact and social.
+  $values = array(
+    'contact_detail' => variable_get('social_contact_info_contact_detail', array()),
+    'social_detail' => variable_get('social_contact_info_social_detail', array()),
+  );
+
   if ($delta == 'social_contact_info') {
     // Website contact information.
     $form['contact_detail'] = array(
       '#type' => 'fieldset',
       '#title' => t('Contact Information'),
-  		'#collapsible' => FALSE,
-  		'#collapsed' => FALSE,
-  		'#description' => t('Contact information shows contact detail of the website. e.g. (Address, Phone, Email, etc..).'),
+      '#collapsible' => FALSE,
+      '#collapsed' => FALSE,
+      '#tree' => TRUE,
+      '#description' => t('Contact information shows contact detail of the website. e.g. (Address, Phone, Email, etc..).'),
     );
+    // Declare contact variable for multiple variable in array.
+    $contact_values = isset($values['contact_detail']) ? $values['contact_detail'] : array();
+
     $form['contact_detail']['contact_title'] = array(
       '#type' => 'textfield',
       '#title' => t('Contact Title'),
@@ -48,14 +77,14 @@ function social_contact_info_block_configure($delta = '') {
       '#attributes' => array(
         'placeholder' => t('Contact Title'),
       ),
-      '#default_value' => variable_get('contact_title', ''),
+      '#default_value' => isset($contact_values['contact_title']) ? $contact_values['contact_title'] : '',
     );
     $form['contact_detail']['contact_address'] = array(
-    	'#type' => 'text_format',
-    	'#title' => t('Address'),
-    	'#resizable' => FALSE,
+      '#type' => 'text_format',
+      '#title' => t('Address'),
+      '#resizable' => FALSE,
       '#format' => 'full_html',
-    	'#default_value' => variable_get('contact_address', ''),
+      '#default_value' => isset($contact_values['contact_address']['value']) ? $contact_values['contact_address']['value'] : '',
     );
     $form['contact_detail']['contact_email'] = array(
       '#type' => 'textfield',
@@ -64,17 +93,17 @@ function social_contact_info_block_configure($delta = '') {
       '#attributes' => array(
         'placeholder' => t('email'),
       ),
-      '#default_value' => variable_get('contact_email', ''),
+      '#default_value' => isset($contact_values['contact_email']) ? $contact_values['contact_email'] : '',
       '#required' => TRUE,
     );
     $form['contact_detail']['contact_phone'] = array(
-    	'#type' => 'textfield',
-    	'#title' => t('Phone Number'),
-    	'#description' => t('This is website phone number field which helps to show website phone number. (This is optional.)'),
-    	'#attributes' => array(
+      '#type' => 'textfield',
+      '#title' => t('Phone Number'),
+      '#description' => t('This is website phone number field which helps to show website phone number. (This is optional.)'),
+      '#attributes' => array(
         'placeholder' => t('Phone Number'),
       ),
-    	'#default_value' => variable_get('contact_phone', ''),
+      '#default_value' => isset($contact_values['contact_phone']) ? $contact_values['contact_phone'] : '',
     );
     $form['contact_detail']['contact_mobile'] = array(
       '#type' => 'textfield',
@@ -83,7 +112,7 @@ function social_contact_info_block_configure($delta = '') {
       '#attributes' => array(
         'placeholder' => t('Mobile Number'),
       ),
-      '#default_value' => variable_get('contact_mobile', ''),
+      '#default_value' => isset($contact_values['contact_mobile']) ? $contact_values['contact_mobile'] : '',
     );
      $form['contact_detail']['contact_fax'] = array(
       '#type' => 'textfield',
@@ -92,7 +121,7 @@ function social_contact_info_block_configure($delta = '') {
       '#attributes' => array(
         'placeholder' => t('FAX'),
       ),
-      '#default_value' => variable_get('contact_fax', ''),
+      '#default_value' => isset($contact_values['contact_fax']) ? $contact_values['contact_fax'] : '',
     );
     // Website Social information.
     $form['social_detail'] = array(
@@ -100,8 +129,12 @@ function social_contact_info_block_configure($delta = '') {
       '#title' => t('Social Information'),
       '#collapsible' => FALSE,
       '#collapsed' => FALSE,
+      '#tree' => TRUE,
       '#description' => t('Social information shows social links of the website. e.g. (Facebook, LinkedIn, Twitter, etc..).'),
     );
+    // Declare social variable for multiple variable in array.
+    $social_values = isset($values['social_detail']) ? $values['social_detail'] : array();
+
     $form['social_detail']['social_title'] = array(
       '#type' => 'textfield',
       '#title' => t('Social Title'),
@@ -109,7 +142,7 @@ function social_contact_info_block_configure($delta = '') {
       '#attributes' => array(
         'placeholder' => t('Social Title'),
       ),
-      '#default_value' => variable_get('social_title', ''),
+      '#default_value' => isset($social_values['social_title']) ? $social_values['social_title'] : '',
     );
     $form['social_detail']['social_facebook'] = array(
       '#type' => 'textfield',
@@ -119,7 +152,7 @@ function social_contact_info_block_configure($delta = '') {
         'class' => array('facebook'),
         'placeholder' => t('https://www.facebook.com/username/'),
       ),
-      '#default_value' => variable_get('social_facebook', ''),
+      '#default_value' => isset($social_values['social_facebook']) ? $social_values['social_facebook'] : '',
     );
     $form['social_detail']['social_linkedin'] = array(
       '#type' => 'textfield',
@@ -128,7 +161,7 @@ function social_contact_info_block_configure($delta = '') {
       '#attributes' => array(
         'placeholder' => t('https://www.linkedin.com/username/'),
       ),
-      '#default_value' => variable_get('social_linkedin', ''),
+      '#default_value' => isset($social_values['social_linkedin']) ? $social_values['social_linkedin'] : '',
     );
     $form['social_detail']['social_twitter'] = array(
       '#type' => 'textfield',
@@ -137,7 +170,7 @@ function social_contact_info_block_configure($delta = '') {
       '#attributes' => array(
         'placeholder' => t('https://twitter.com/username/'),
       ),
-      '#default_value' => variable_get('social_twitter', ''),
+      '#default_value' => isset($social_values['social_twitter']) ? $social_values['social_twitter'] : '',
     );
     $form['social_detail']['social_youtube'] = array(
       '#type' => 'textfield',
@@ -146,7 +179,7 @@ function social_contact_info_block_configure($delta = '') {
       '#attributes' => array(
         'placeholder' => t('https://www.youtube.com/username/'),
       ),
-      '#default_value' => variable_get('social_youtube', ''),
+      '#default_value' => isset($social_values['social_youtube']) ? $social_values['social_youtube'] : '',
     );
     $form['social_detail']['social_google_plus'] = array(
       '#type' => 'textfield',
@@ -155,7 +188,7 @@ function social_contact_info_block_configure($delta = '') {
       '#attributes' => array(
         'placeholder' => t('https://www.plus.google.com/username/'),
       ),
-      '#default_value' => variable_get('social_google_plus', ''),
+      '#default_value' => isset($social_values['social_google_plus']) ? $social_values['social_google_plus'] : '',
     );
     $form['social_detail']['social_instagram'] = array(
       '#type' => 'textfield',
@@ -164,7 +197,7 @@ function social_contact_info_block_configure($delta = '') {
       '#attributes' => array(
         'placeholder' => t('https://www.instagram.com/username/'),
       ),
-      '#default_value' => variable_get('social_instagram', ''),
+      '#default_value' => isset($social_values['social_instagram']) ? $social_values['social_instagram'] : '',
     );
 
   }
@@ -177,33 +210,10 @@ function social_contact_info_block_configure($delta = '') {
 function social_contact_info_block_save($delta = '', $edit = array()) {
 
   if ($delta == 'social_contact_info') {
-    // Contact title field.
-    variable_set('contact_title', $edit['contact_title']);
-    // Body editor field.
-    variable_set('contact_address', $edit['contact_address']['value']);
-    // Email field.
-    variable_set('contact_email', $edit['contact_email']);
-    // Phone field.
-    variable_set('contact_phone', $edit['contact_phone']);
-    // Mobile field.
-    variable_set('contact_mobile', $edit['contact_mobile']);
-    // FAX field.
-    variable_set('contact_fax', $edit['contact_fax']);
-
-    // Social title field.
-    variable_set('social_title', $edit['social_title']);
-    // Facebook field.
-    variable_set('social_facebook', $edit['social_facebook']);
-    // LinkedIn field.
-    variable_set('social_linkedin', $edit['social_linkedin']);
-    // Twitter field.
-    variable_set('social_twitter', $edit['social_twitter']);
-    // Youtube field.
-    variable_set('social_youtube', $edit['social_youtube']);
-    // Google Plus field.
-    variable_set('social_google_plus', $edit['social_google_plus']);
-    // Instagram field.
-    variable_set('social_instagram', $edit['social_instagram']); 
+    // Contact detail array of fields.
+    variable_set('social_contact_info_contact_detail', $edit['contact_detail']);
+    // Social detail array of fields.
+    variable_set('social_contact_info_social_detail', $edit['social_detail']);
   }
 }
 
@@ -213,47 +223,116 @@ function social_contact_info_block_save($delta = '', $edit = array()) {
 function social_contact_info_block_view($delta = '') {
   $block = array();
   if ($delta == 'social_contact_info') {
-    $block['subject'] = t('Contact Detail');
-    $block['content'] = social_contact_info_theme_block_content();
+    $block['subject'] = t('Contact Us');
+    $block['content'] = array(
+      '#theme' => 'social_contact_info_contact_social_detail',
+      '#contact_detail' => variable_get('social_contact_info_contact_detail'),
+      '#social_detail' => variable_get('social_contact_info_social_detail'),
+    );
   }
   return $block;
 }
 
 /**
+ * Theme function for the platforms.
+ */
+function theme_social_contact_info_contact_social_detail(&$variables) {
+  $output = '';
+
+  $contact_array = $variables['contact_detail'];
+  $social_array = $variables['social_detail'];
+  $contact_array_shift = array_slice($contact_array, 2);
+  $social_array_shift = array_slice($social_array, 1);
+
+  $output .= '<div class="social-contact-block">';
+    // Contact section title.
+    $output .=  '<h3>' . $contact_array['contact_title'] . '</h3>'; 
+    $output .=  '<div class="contact-address">' . $contact_array['contact_address']['value'] . '</div>'; 
+    foreach ($contact_array_shift as $name => $contact_value) {
+      $class = array(str_replace('_', '-', $name));
+      $output .= '<div ' . drupal_attributes(array('class' => $class)) . '>';
+      // Render the contact_value item.
+      $output .= $contact_value;
+      $output .= '</div>';
+    }
+  // exit;
+  // Close the ul element.
+  $output .= '</div>';
+
+
+  $output .= '<div class="social-contact-block">';
+    // Contact section title.
+    $output .=  '<h3>' . $social_array['social_detail']['title'] . '</h3>'; 
+    foreach ($social_array_shift as $name1 => $social_value) {
+      $class1 = strtoupper(substr($name1, 7));
+      $output .= '<div ' . drupal_attributes(array('class' => $class1)) . '>';
+        // Render the contact_value item.
+        $output .= '<a href="' . $social_value . '" rel="social_link" target="_blank">' . $class1 . '</a>';
+      $output .= '</div>';
+    }
+  // exit;
+  // Close the ul element.
+  $output .= '</div>';
+
+  return $output;
+}
+/**
  * Custom function for displying block information.
  */
-function social_contact_info_theme_block_content() {
-  $block = array();
-  $block['contact_title'] = array(
-    '#markup' => variable_get('contact_title', ''),
-    '#prefix' => '<h3 class="contact-information-title">',
-    '#suffix' => '</h3>',
-  );
-  $block['contact_address'] = array(
-    '#markup' => variable_get('contact_address', '')
-  );
-  $block['contact_email'] = array(
-    '#markup' => variable_get('contact_email', '')
-  );
-  $block['contact_phone'] = array(
-    '#markup' => variable_get('contact_phone', '')
-  );
-  $block['contact_mobile'] = array(
-    '#markup' => variable_get('contact_mobile', '')
-  );
-  $block['contact_fax'] = array(
-    '#markup' => variable_get('contact_fax', '')
-  );
-  $block['social_title'] = array(
-    '#markup' => variable_get('social_title', ''),
-    '#prefix' => '<h3 class="social-information-title">',
-    '#suffix' => '</h3>',
-  );
-  // $block['contact_address'] = array(
-  //   '#markup' => variable_get('contact_address', '')
+// function social_contact_info_theme_block_content() {
+//   $block = array();
+  // $block['contact_title'] = array(
+  //   '#markup' => variable_get('contact_title', ''),
+  //   '#prefix' => '<h3 class="contact-information-title">',
+  //   '#suffix' => '</h3>',
   // );
   // $block['contact_address'] = array(
   //   '#markup' => variable_get('contact_address', '')
   // );
-  return $block;
-}
+  // $block['contact_email'] = array(
+  //   '#markup' => variable_get('contact_email', '')
+  // );
+  // $block['contact_phone'] = array(
+  //   '#markup' => variable_get('contact_phone', '')
+  // );
+  // $block['contact_mobile'] = array(
+  //   '#markup' => variable_get('contact_mobile', '')
+  // );
+  // $block['contact_fax'] = array(
+  //   '#markup' => variable_get('contact_fax', '')
+  // );
+  // $block['social_title'] = array(
+  //   '#markup' => variable_get('social_title', ''),
+  //   '#prefix' => '<h3 class="social-information-title">',
+  //   '#suffix' => '</h3>',
+  // );
+  // $block['contact_address'] = array(
+  //   '#markup' => variable_get('contact_address', '')
+  // );
+  // $block['contact_address'] = array(
+  //   '#markup' => variable_get('contact_address', '')
+  // );
+//   return $block;
+// }
+
+/**
+ * Preprocesses variables for social media links platforms.
+ *
+ * @see theme_social_contact_info_contact_social_detail()
+ */
+// function template_preprocess_social_contact_info_contact_social_detail(&$variables) {
+//   //$contact_detail_array = $variables['contact_detail'];
+//   //$social_detail_array = $variables['social_detail'];
+//   $str = array();
+//   foreach ($variables["contact_detail"] as $key => $value) {
+//     $str[] = $variables["contact_detail"][$key];
+//   }
+//   $rows[] = array(
+//     'data' => $str,
+//     'class' => array('draggable'),
+//   );
+//   return $output = theme('table', array(
+//     'header' => 'test',
+//     'rows' => $rows
+//   ));
+// }

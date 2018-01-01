@@ -1,0 +1,10 @@
+<?php
+
+/**
+ * Implements hook_uninstall().
+ */
+function social_contact_info_uninstall() {
+  // Unset social_contact_info variables.
+  variable_get('social_contact_info_contact_detail');
+  variable_get('social_contact_info_social_detail');
+}
