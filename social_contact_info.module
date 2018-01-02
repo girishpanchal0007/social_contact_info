@@ -26,8 +26,10 @@ function social_contact_info_theme($existing, $type, $theme, $path) {
         'contact_detail' => array(),
         'social_detail' => array(),
       ),
+      'template' => 'block-content-social-contact-detail',
+      'path' => drupal_get_path('module', 'social_contact_info') . '/templates',
     ),
-    //'template' => 'social-contact-detail',
+    
   );
 }
 
@@ -236,46 +238,48 @@ function social_contact_info_block_view($delta = '') {
 /**
  * Theme function for the platforms.
  */
-function theme_social_contact_info_contact_social_detail(&$variables) {
-  $output = '';
+// function theme_social_contact_info_contact_social_detail(&$variables) {
+//   $output = '';
 
-  $contact_array = $variables['contact_detail'];
-  $social_array = $variables['social_detail'];
-  $contact_array_shift = array_slice($contact_array, 2);
-  $social_array_shift = array_slice($social_array, 1);
+//   $contact_array = $variables['contact_detail'];
+//   $social_array = $variables['social_detail'];
+//   $contact_array_shift = array_slice($contact_array, 2);
+//   $social_array_shift = array_slice($social_array, 1);
 
-  $output .= '<div class="social-contact-block">';
-    // Contact section title.
-    $output .=  '<h3>' . $contact_array['contact_title'] . '</h3>'; 
-    $output .=  '<div class="contact-address">' . $contact_array['contact_address']['value'] . '</div>'; 
-    foreach ($contact_array_shift as $name => $contact_value) {
-      $class = array(str_replace('_', '-', $name));
-      $output .= '<div ' . drupal_attributes(array('class' => $class)) . '>';
-      // Render the contact_value item.
-      $output .= $contact_value;
-      $output .= '</div>';
-    }
-  // exit;
-  // Close the ul element.
-  $output .= '</div>';
+//   $output .= '<div class="social-contact-block">';
+//     // Contact section title.
+//     $output .=  '<h3>' . $contact_array['contact_title'] . '</h3>'; 
+//     $output .=  '<div class="contact-address">' . $contact_array['contact_address']['value'] . '</div>'; 
+//     foreach ($contact_array_shift as $name => $contact_value) {
+//       $class = array(str_replace('_', '-', $name));
+//       $output .= '<div ' . drupal_attributes(array('class' => $class)) . '>';
+//       // Render the contact_value item.
+//       $output .= $contact_value;
+//       $output .= '</div>';
+//     }
+//   // exit;
+//   // Close the ul element.
+//   $output .= '</div>';
 
 
-  $output .= '<div class="social-contact-block">';
-    // Contact section title.
-    $output .=  '<h3>' . $social_array['social_detail']['title'] . '</h3>'; 
-    foreach ($social_array_shift as $name1 => $social_value) {
-      $class1 = strtoupper(substr($name1, 7));
-      $output .= '<div ' . drupal_attributes(array('class' => $class1)) . '>';
-        // Render the contact_value item.
-        $output .= '<a href="' . $social_value . '" rel="social_link" target="_blank">' . $class1 . '</a>';
-      $output .= '</div>';
-    }
-  // exit;
-  // Close the ul element.
-  $output .= '</div>';
+//   $output .= '<div class="social-contact-block">';
+//     // Contact section title.
+//     $output .=  '<h3>' . $social_array['social_title'] . '</h3>';
+//     $output .=  '<ul class="social-information">';
+//     foreach ($social_array_shift as $name1 => $social_value) {
+//       $class1 = str_replace('_', '-', $name1);
+//       $output .= '<li ' . drupal_attributes(array('class' => $class1)) . '>';
+//         // Render the contact_value item.
+//         $output .= '<a href="' . $social_value . '" rel="social_link" target="_blank">' . ucfirst(substr($class1, 7)) . '</a>';
+//       $output .= '</li>';
+//     }
+//     $output .=  '</ul>';
+//   // exit;
+//   // Close the ul element.
+//   $output .= '</div>';
 
-  return $output;
-}
+//   return $output;
+// }
 /**
  * Custom function for displying block information.
  */
@@ -316,23 +320,40 @@ function theme_social_contact_info_contact_social_detail(&$variables) {
 // }
 
 /**
- * Preprocesses variables for social media links platforms.
+ * Processes variables for social-media-links-platform.tpl.php.
  *
- * @see theme_social_contact_info_contact_social_detail()
+ * @see theme_social_media_links_platform()
  */
-// function template_preprocess_social_contact_info_contact_social_detail(&$variables) {
-//   //$contact_detail_array = $variables['contact_detail'];
-//   //$social_detail_array = $variables['social_detail'];
-//   $str = array();
-//   foreach ($variables["contact_detail"] as $key => $value) {
-//     $str[] = $variables["contact_detail"][$key];
-//   }
-//   $rows[] = array(
-//     'data' => $str,
-//     'class' => array('draggable'),
-//   );
-//   return $output = theme('table', array(
-//     'header' => 'test',
-//     'rows' => $rows
-//   ));
-// }
+function template_preprocess_social_contact_info_contact_social_detail(&$variables) {
+
+  $contact_details = $variables['contact_detail'];
+  $social_details = $variables['social_detail'];
+  $contact_values = array_slice($contact_details, 2);
+  $social_values = array_slice($social_details, 1);
+  
+  // Contact details.
+  $variables['contact_title'] = $contact_details['contact_title'];
+  $variables['contact_address'] = $contact_details['contact_address']['value'];
+  $variables['contact_info'] = $contact_values;
+
+  // Social details.
+  $variables['social_title'] = $social_details['social_title'];
+  $variables['social_info'] = $social_values;
+
+  // $name = $variables['name'];
+  // $value = $variables['value'];
+  // $icon_style = $variables['icon_style'];
+
+  // Call the url callback of the platform to create the link url.
+  // $variables['link'] = $info['base url'] . $value;
+  // if (isset($info['url callback'])) {
+  //   $platform_url_changed = call_user_func($info['url callback'], $info['base url'], $value);
+  //   if ($platform_url_changed) {
+  //     $variables['link'] = $platform_url_changed;
+  //   }
+  // }
+
+  // $variables['attributes']['title'] = check_plain($info['title']);
+  // $variables['icon_path'] = social_media_links_icon($icon_style[0], $name, $icon_style[1]);
+  // $variables['icon_alt'] = isset($info['image alt']) ? $info['image alt'] : $info['title'] . ' ' . t('icon');
+}
