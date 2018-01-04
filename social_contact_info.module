@@ -64,8 +64,8 @@ function social_contact_info_block_configure($delta = '') {
     $form['contact_detail'] = array(
       '#type' => 'fieldset',
       '#title' => t('Contact Information'),
-      '#collapsible' => FALSE,
-      '#collapsed' => FALSE,
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
       '#tree' => TRUE,
       '#description' => t('Contact information shows contact detail of the website. e.g. (Address, Phone, Email, etc..).'),
     );
@@ -129,8 +129,8 @@ function social_contact_info_block_configure($delta = '') {
     $form['social_detail'] = array(
       '#type' => 'fieldset',
       '#title' => t('Social Information'),
-      '#collapsible' => FALSE,
-      '#collapsed' => FALSE,
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
       '#tree' => TRUE,
       '#description' => t('Social information shows social links of the website. e.g. (Facebook, LinkedIn, Twitter, etc..).'),
     );
@@ -230,7 +230,11 @@ function social_contact_info_block_view($delta = '') {
       '#theme' => 'social_contact_info_contact_social_detail',
       '#contact_detail' => variable_get('social_contact_info_contact_detail'),
       '#social_detail' => variable_get('social_contact_info_social_detail'),
+      '#attributes' => array(
+        'class' => array('social-contact-info'),
+      ),
     );
+    $block['content']['#attached']['css'][] = drupal_get_path('module', 'social_contact_info') . '/css/social_contact_info.css';
   }
   return $block;
 }
@@ -327,18 +331,30 @@ function social_contact_info_block_view($delta = '') {
 function template_preprocess_social_contact_info_contact_social_detail(&$variables) {
 
   $contact_details = $variables['contact_detail'];
+  $contact_values = array();
+  foreach ($contact_details as $contact_key => $contact_value) {
+    $c_keys = ucfirst(substr($contact_key, 8));
+    $contact_values[$c_keys] = $contact_value;
+  }
+
   $social_details = $variables['social_detail'];
-  $contact_values = array_slice($contact_details, 2);
-  $social_values = array_slice($social_details, 1);
+  $social_values = array();
+  foreach ($social_details as $social_key => $social_value) {
+    $s_key = ucfirst(str_replace('_', ' ', substr($social_key, 7)));
+    $social_values[$s_key] = $social_value;
+  }
+
+  $contact_values_slice = array_slice($contact_values, 2);
+  $social_values_slice = array_slice($social_values, 1);
   
   // Contact details.
   $variables['contact_title'] = $contact_details['contact_title'];
   $variables['contact_address'] = $contact_details['contact_address']['value'];
-  $variables['contact_info'] = $contact_values;
+  $variables['contact_info'] = $contact_values_slice;
 
   // Social details.
   $variables['social_title'] = $social_details['social_title'];
-  $variables['social_info'] = $social_values;
+  $variables['social_info'] = $social_values_slice;
 
   // $name = $variables['name'];
   // $value = $variables['value'];

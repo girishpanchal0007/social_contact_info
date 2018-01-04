@@ -13,30 +13,26 @@
  * - $user: The logged-in user detail.
  */
 ?>
-<?php
 
-//var_dump($contact_title, $social_title, $contact_info, $contact_address,  $social_info, $user);
-// $output = theme('social_contact_info_contact_social_detail', $contact, $social);
-// // return $output;
-// var_dump($output);
-?>
 <div class="block-contact-details">
-	<h4><?php print $contact_title; ?></h4>
+	<h3 class="social-content-title"><?php print $contact_title; ?></h3>
 	<div class="contact-content">
+		<h4>Address</h4>
 		<div class="contact-address"><?php print $contact_address; ?></div>
 		<?php foreach ($contact_info as $key => $contact_value) { ?>
+			<div class="fields contact-values">
+				<h4><?php print $key; ?></h4>
 				<div><?php print $contact_value; ?></div>
+			</div>
 		<?php } ?>
 	</div>
 </div>
 
 <div class="block-social-details">
-	<h4><?php print $social_title; ?></h4>
+	<h3 class="social-content-title"><?php print $social_title; ?></h3>
 	<div class="social-content">
 		<?php foreach ($social_info as $key => $social_value) { ?>
-				<div><?php print $social_value; ?></div>
+				<div class="fields social-values"><a href="<?php print $social_value; ?>" rel="social_link" target="_blank"><?php print $key; ?></a></div>
 		<?php } ?>
 	</div>
 </div>
-
-<?php //exit;
