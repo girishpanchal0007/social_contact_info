@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Social Contact Information module install hooks.
+ */
+
+/**
  * Implements hook_uninstall().
  */
 function social_contact_info_uninstall() {
