@@ -1,7 +1,13 @@
+.contact-content {
+  margin-bottom: 20px;
+}
 h3.social-content-title {
   font-weight: bold;
   margin: 10px 0;
 }
-.contact-content {
-  margin-bottom: 20px;
+.contact-content .contact-field h4 {
+  margin: 8px 0;
+}
+.social-content .social-field {
+  margin: 10px 0;
 }

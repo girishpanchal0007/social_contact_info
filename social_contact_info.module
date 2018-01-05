@@ -2,7 +2,7 @@
 
 /**
  * @file
- * social_contact_info helps to add social and contact detail for website.
+ * Social Contact Information helps to add social and contact detail for website.
  */
 
 /**
@@ -458,11 +458,10 @@ function template_preprocess_social_contact_info_contact_social_detail(&$variabl
       // } else {
       //   $contact_value['value']['value'] = t('-');
       // }
+      // Assigned changes label and values to new variables.
+      $contact_values[] = $contact_value;
     }
-    //unset($contact_values_slice['address']);
-    // Assigned changes label and values to new variables.
-    //var_dump($contact_value);
-    $contact_values[] = $contact_value;
+    
   }  
   // Social medias.
   $social_details = $variables['social_detail'];
@@ -474,9 +473,9 @@ function template_preprocess_social_contact_info_contact_social_detail(&$variabl
     if (isset($social_value['link']) && !empty($social_value['link'])) {
       // Checking label if labels are blank then array key used as labels.
       $social_value['label'] = ucfirst(str_replace('_', ' ', $social_key));
+      // Assigned changes label and values to new variables.
+      $social_values[] = $social_value;
     }
-    // Assigned changes label and values to new variables.
-    $social_values[] = $social_value;
   }
   // Contact details.
   $variables['contact_title'] = $contact_details['contact_title'];
