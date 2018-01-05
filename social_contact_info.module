@@ -71,60 +71,116 @@ function social_contact_info_block_configure($delta = '') {
     );
     // Declare contact variable for multiple variable in array.
     $contact_values = isset($values['contact_detail']) ? $values['contact_detail'] : array();
-
+    // Contact section title.
     $form['contact_detail']['contact_title'] = array(
       '#type' => 'textfield',
       '#title' => t('Contact Title'),
       '#description' => t('This is contact title which helps to show contact title on top of the contact section. (This is optional.)'),
-      '#attributes' => array(
-        'placeholder' => t('Contact Title'),
-      ),
       '#default_value' => isset($contact_values['contact_title']) ? $contact_values['contact_title'] : '',
     );
-    $form['contact_detail']['contact_address'] = array(
-      '#type' => 'text_format',
+    // Address section.
+    $form['contact_detail']['address'] = array(
+      '#type' => 'fieldset',
       '#title' => t('Address'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#tree' => TRUE,
+    );
+    $form['contact_detail']['address']['label'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Label'),
+      '#description' => t('This is optional field.'),
+      '#default_value' => isset($contact_values['address']['label']) ? $contact_values['address']['label'] : '',
+    );
+    $form['contact_detail']['address']['value'] = array(
+      '#type' => 'text_format',
+      '#title' => t('Value'),
       '#resizable' => FALSE,
       '#format' => 'full_html',
-      '#default_value' => isset($contact_values['contact_address']['value']) ? $contact_values['contact_address']['value'] : '',
+      '#default_value' => isset($contact_values['address']['contact_address']['value']) ? $contact_values['address']['contact_address']['value'] : '',
     );
-    $form['contact_detail']['contact_email'] = array(
+
+    $form['contact_detail']['email'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('E-mail'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#tree' => TRUE,
+    );
+    $form['contact_detail']['email']['label'] = array(
       '#type' => 'textfield',
-      '#title' => t('Email'),
+      '#title' => t('Label'),
+      '#description' => t('This is optional field.'),
+      '#default_value' => isset($contact_values['email']['label']) ? $contact_values['email']['label'] : '',
+    );
+    $form['contact_detail']['email']['value'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Value'),
       '#description' => t('This is website email field which helps to show website email. (This is required.)'),
-      '#attributes' => array(
-        'placeholder' => t('email'),
-      ),
-      '#default_value' => isset($contact_values['contact_email']) ? $contact_values['contact_email'] : '',
+      '#default_value' => isset($contact_values['email']['value']) ? $contact_values['email']['value'] : '',
       '#required' => TRUE,
     );
-    $form['contact_detail']['contact_phone'] = array(
+
+    $form['contact_detail']['phone'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Phone'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#tree' => TRUE,
+    );
+    $form['contact_detail']['phone']['label'] = array(
       '#type' => 'textfield',
-      '#title' => t('Phone Number'),
+      '#title' => t('Label'),
+      '#description' => t('This is optional field.'),
+      '#default_value' => isset($contact_values['phone']['label']) ? $contact_values['phone']['label'] : '',
+    );
+    $form['contact_detail']['phone']['value'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Value'),
       '#description' => t('This is website phone number field which helps to show website phone number. (This is optional.)'),
-      '#attributes' => array(
-        'placeholder' => t('Phone Number'),
-      ),
-      '#default_value' => isset($contact_values['contact_phone']) ? $contact_values['contact_phone'] : '',
+      '#default_value' => isset($contact_values['phone']['value']) ? $contact_values['phone']['value'] : '',
     );
-    $form['contact_detail']['contact_mobile'] = array(
+
+    $form['contact_detail']['mobile'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Mobile'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#tree' => TRUE,
+    );
+    $form['contact_detail']['mobile']['label'] = array(
       '#type' => 'textfield',
-      '#title' => t('Mobile Number'),
+      '#title' => t('Label'),
+      '#description' => t('This is optional field.'),
+      '#default_value' => isset($contact_values['mobile']['label']) ? $contact_values['mobile']['label'] : '',
+    );
+    $form['contact_detail']['mobile']['value'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Value'),
       '#description' => t('This is website mobile number field which helps to show website mobile number. (This is optional.)'),
-      '#attributes' => array(
-        'placeholder' => t('Mobile Number'),
-      ),
-      '#default_value' => isset($contact_values['contact_mobile']) ? $contact_values['contact_mobile'] : '',
+      '#default_value' => isset($contact_values['mobile']['value']) ? $contact_values['mobile']['value'] : '',
     );
-     $form['contact_detail']['contact_fax'] = array(
-      '#type' => 'textfield',
+
+    $form['contact_detail']['fax'] = array(
+      '#type' => 'fieldset',
       '#title' => t('FAX'),
-      '#description' => t('This is website fax number field which helps to show website fax number. (This is optional.)'),
-      '#attributes' => array(
-        'placeholder' => t('FAX'),
-      ),
-      '#default_value' => isset($contact_values['contact_fax']) ? $contact_values['contact_fax'] : '',
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#tree' => TRUE,
     );
+    $form['contact_detail']['fax']['label'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Label'),
+      '#description' => t('This is optional field.'),
+      '#default_value' => isset($contact_values['fax']['label']) ? $contact_values['fax']['label'] : '',
+    );
+     $form['contact_detail']['fax']['value'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Value'),
+      '#description' => t('This is website fax number field which helps to show website fax number.'),
+      '#default_value' => isset($contact_values['fax']['value']) ? $contact_values['fax']['value'] : '',
+    );
+
     // Website Social information.
     $form['social_detail'] = array(
       '#type' => 'fieldset',
@@ -146,60 +202,142 @@ function social_contact_info_block_configure($delta = '') {
       ),
       '#default_value' => isset($social_values['social_title']) ? $social_values['social_title'] : '',
     );
-    $form['social_detail']['social_facebook'] = array(
-      '#type' => 'textfield',
+    $form['social_detail']['facebook'] = array(
+      '#type' => 'fieldset',
       '#title' => t('Facebook'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#tree' => TRUE,
+    );
+    $form['social_detail']['facebook']['link'] = array(
+      '#type' => 'textfield',
+      '#title' => t('URL'),
       '#description' => t('Add your Facebook profile link here.'),
       '#attributes' => array(
-        'class' => array('facebook'),
         'placeholder' => t('https://www.facebook.com/username/'),
       ),
-      '#default_value' => isset($social_values['social_facebook']) ? $social_values['social_facebook'] : '',
+      '#default_value' => isset($social_values['facebook']['link']) ? $social_values['facebook']['link'] : '',
     );
-    $form['social_detail']['social_linkedin'] = array(
+    $form['social_detail']['facebook']['class'] = array(
       '#type' => 'textfield',
+      '#title' => t('Link Class'),
+      '#description' => t('Here you can add your custom class to the image. (This is optional field).'),
+      '#default_value' => isset($social_values['facebook']['class']) ? $social_values['facebook']['class'] : '',
+    );
+
+    $form['social_detail']['linkedin'] = array(
+      '#type' => 'fieldset',
       '#title' => t('LinkedIn'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#tree' => TRUE,
+    );
+    $form['social_detail']['linkedin']['link'] = array(
+      '#type' => 'textfield',
+      '#title' => t('URL'),
       '#description' => t('Add your LinkedIn profile link here.'),
       '#attributes' => array(
         'placeholder' => t('https://www.linkedin.com/username/'),
       ),
-      '#default_value' => isset($social_values['social_linkedin']) ? $social_values['social_linkedin'] : '',
+      '#default_value' => isset($social_values['linkedin']['link']) ? $social_values['linkedin']['link'] : '',
     );
-    $form['social_detail']['social_twitter'] = array(
+    $form['social_detail']['linkedin']['class'] = array(
       '#type' => 'textfield',
+      '#title' => t('Link Class'),
+      '#description' => t('Here you can add your custom class to the image. (This is optional field).'),
+      '#default_value' => isset($social_values['linkedin']['class']) ? $social_values['linkedin']['class'] : '',
+    );
+
+    $form['social_detail']['twitter'] = array(
+      '#type' => 'fieldset',
       '#title' => t('Twitter'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#tree' => TRUE,
+    );
+    $form['social_detail']['twitter']['link'] = array(
+      '#type' => 'textfield',
+      '#title' => t('URL'),
       '#description' => t('Add your Twiiter profile link here.'),
       '#attributes' => array(
         'placeholder' => t('https://twitter.com/username/'),
       ),
-      '#default_value' => isset($social_values['social_twitter']) ? $social_values['social_twitter'] : '',
+      '#default_value' => isset($social_values['twitter']['link']) ? $social_values['twitter']['link'] : '',
     );
-    $form['social_detail']['social_youtube'] = array(
+    $form['social_detail']['twitter']['class'] = array(
       '#type' => 'textfield',
+      '#title' => t('Link Class'),
+      '#description' => t('Here you can add your custom class to the image. (This is optional field).'),
+      '#default_value' => isset($social_values['twitter']['class']) ? $social_values['twitter']['class'] : '',
+    );
+
+    $form['social_detail']['youtube'] = array(
+      '#type' => 'fieldset',
       '#title' => t('Youtube'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#tree' => TRUE,
+    );
+    $form['social_detail']['youtube']['link'] = array(
+      '#type' => 'textfield',
+      '#title' => t('URL'),
       '#description' => t('Add your Youtube profile link here.'),
       '#attributes' => array(
         'placeholder' => t('https://www.youtube.com/username/'),
       ),
-      '#default_value' => isset($social_values['social_youtube']) ? $social_values['social_youtube'] : '',
+      '#default_value' => isset($social_values['youtube']['link']) ? $social_values['youtube']['link'] : '',
     );
-    $form['social_detail']['social_google_plus'] = array(
+    $form['social_detail']['youtube']['class'] = array(
       '#type' => 'textfield',
+      '#title' => t('Link Class'),
+      '#description' => t('Here you can add your custom class to the image. (This is optional field).'),
+      '#default_value' => isset($social_values['youtube']['class']) ? $social_values['youtube']['class'] : '',
+    );
+
+    $form['social_detail']['google_plus'] = array(
+      '#type' => 'fieldset',
       '#title' => t('Google Plus'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#tree' => TRUE,
+    );
+    $form['social_detail']['google_plus']['link'] = array(
+      '#type' => 'textfield',
+      '#title' => t('URL'),
       '#description' => t('Add your Google Plus profile link here.'),
       '#attributes' => array(
         'placeholder' => t('https://www.plus.google.com/username/'),
       ),
-      '#default_value' => isset($social_values['social_google_plus']) ? $social_values['social_google_plus'] : '',
+      '#default_value' => isset($social_values['google_plus']['link']) ? $social_values['google_plus']['link'] : '',
     );
-    $form['social_detail']['social_instagram'] = array(
+    $form['social_detail']['google_plus']['class'] = array(
       '#type' => 'textfield',
+      '#title' => t('Link Class'),
+      '#description' => t('Here you can add your custom class to the image. (This is optional field).'),
+      '#default_value' => isset($social_values['google_plus']['class']) ? $social_values['google_plus']['class'] : '',
+    );
+
+    $form['social_detail']['instagram'] = array(
+      '#type' => 'fieldset',
       '#title' => t('Instagram'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#tree' => TRUE,
+    );
+    $form['social_detail']['instagram']['link'] = array(
+      '#type' => 'textfield',
+      '#title' => t('URL'),
       '#description' => t('Add your Instagram profile link here.'),
       '#attributes' => array(
         'placeholder' => t('https://www.instagram.com/username/'),
       ),
-      '#default_value' => isset($social_values['social_instagram']) ? $social_values['social_instagram'] : '',
+      '#default_value' => isset($social_values['instagram']['link']) ? $social_values['instagram']['link'] : '',
+    );
+    $form['social_detail']['instagram']['class'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Link Class'),
+      '#description' => t('Here you can add your custom class to the image. (This is optional field).'),
+      '#default_value' => isset($social_values['instagram']['class']) ? $social_values['instagram']['class'] : '',
     );
 
   }
@@ -284,44 +422,6 @@ function social_contact_info_block_view($delta = '') {
 
 //   return $output;
 // }
-/**
- * Custom function for displying block information.
- */
-// function social_contact_info_theme_block_content() {
-//   $block = array();
-  // $block['contact_title'] = array(
-  //   '#markup' => variable_get('contact_title', ''),
-  //   '#prefix' => '<h3 class="contact-information-title">',
-  //   '#suffix' => '</h3>',
-  // );
-  // $block['contact_address'] = array(
-  //   '#markup' => variable_get('contact_address', '')
-  // );
-  // $block['contact_email'] = array(
-  //   '#markup' => variable_get('contact_email', '')
-  // );
-  // $block['contact_phone'] = array(
-  //   '#markup' => variable_get('contact_phone', '')
-  // );
-  // $block['contact_mobile'] = array(
-  //   '#markup' => variable_get('contact_mobile', '')
-  // );
-  // $block['contact_fax'] = array(
-  //   '#markup' => variable_get('contact_fax', '')
-  // );
-  // $block['social_title'] = array(
-  //   '#markup' => variable_get('social_title', ''),
-  //   '#prefix' => '<h3 class="social-information-title">',
-  //   '#suffix' => '</h3>',
-  // );
-  // $block['contact_address'] = array(
-  //   '#markup' => variable_get('contact_address', '')
-  // );
-  // $block['contact_address'] = array(
-  //   '#markup' => variable_get('contact_address', '')
-  // );
-//   return $block;
-// }
 
 /**
  * Processes variables for social-media-links-platform.tpl.php.
@@ -329,47 +429,59 @@ function social_contact_info_block_view($delta = '') {
  * @see theme_social_media_links_platform()
  */
 function template_preprocess_social_contact_info_contact_social_detail(&$variables) {
-
+  // Contact details.
   $contact_details = $variables['contact_detail'];
-  $contact_values = array();
-  foreach ($contact_details as $contact_key => $contact_value) {
-    $c_keys = ucfirst(substr($contact_key, 8));
-    $contact_values[$c_keys] = $contact_value;
+  if (isset($contact_details["address"]) && !empty($contact_details["address"]["value"]["value"])) {
+    $contact_values_slice = array_slice($contact_details, 1);  
+  } else {
+    $contact_values_slice = array_slice($contact_details, 2); 
   }
-
-  $social_details = $variables['social_detail'];
-  $social_values = array();
-  foreach ($social_details as $social_key => $social_value) {
-    $s_key = ucfirst(str_replace('_', ' ', substr($social_key, 7)));
-    $social_values[$s_key] = $social_value;
-  }
-
-  $contact_values_slice = array_slice($contact_values, 2);
-  $social_values_slice = array_slice($social_values, 1);
   
+  // Global variable.
+  $contact_values = array();
+  foreach ($contact_values_slice as $contact_key => $contact_value) {
+    // Checking label is set or not
+    if (isset($contact_value['value']) && !empty($contact_value['value'])) {
+      // Checking label if labels are blank then array key used as labels.
+      if ($contact_value['label'] == '' ) {
+        $contact_value['label'] = ucfirst($contact_key);
+      }
+      // Checking values if values are blank to '-' will be assigned.
+      // if ($contact_value['value'] == '') {
+      //   $contact_value['value'] = t('-');
+      // }
+      // Only for address value.
+      // if (isset($contact_value['value']['value']) && empty($contact_value['value']['value'])) {
+      //   unset($contact_value['label']);
+      //   unset($contact_value['value']);
+      // } else {
+      //   $contact_value['value']['value'] = t('-');
+      // }
+    }
+    //unset($contact_values_slice['address']);
+    // Assigned changes label and values to new variables.
+    //var_dump($contact_value);
+    $contact_values[] = $contact_value;
+  }  
+  // Social medias.
+  $social_details = $variables['social_detail'];
+  $social_values_slice = array_slice($social_details, 1);
+  // Global variable.
+  $social_values = array();
+  foreach ($social_values_slice as $social_key => $social_value) {
+    // Checking label is set or not
+    if (isset($social_value['link']) && !empty($social_value['link'])) {
+      // Checking label if labels are blank then array key used as labels.
+      $social_value['label'] = ucfirst(str_replace('_', ' ', $social_key));
+    }
+    // Assigned changes label and values to new variables.
+    $social_values[] = $social_value;
+  }
   // Contact details.
   $variables['contact_title'] = $contact_details['contact_title'];
-  $variables['contact_address'] = $contact_details['contact_address']['value'];
-  $variables['contact_info'] = $contact_values_slice;
+  $variables['contact_info'] = $contact_values;
 
   // Social details.
   $variables['social_title'] = $social_details['social_title'];
-  $variables['social_info'] = $social_values_slice;
-
-  // $name = $variables['name'];
-  // $value = $variables['value'];
-  // $icon_style = $variables['icon_style'];
-
-  // Call the url callback of the platform to create the link url.
-  // $variables['link'] = $info['base url'] . $value;
-  // if (isset($info['url callback'])) {
-  //   $platform_url_changed = call_user_func($info['url callback'], $info['base url'], $value);
-  //   if ($platform_url_changed) {
-  //     $variables['link'] = $platform_url_changed;
-  //   }
-  // }
-
-  // $variables['attributes']['title'] = check_plain($info['title']);
-  // $variables['icon_path'] = social_media_links_icon($icon_style[0], $name, $icon_style[1]);
-  // $variables['icon_alt'] = isset($info['image alt']) ? $info['image alt'] : $info['title'] . ' ' . t('icon');
+  $variables['social_info'] = $social_values;
 }

@@ -17,12 +17,10 @@
 <div class="block-contact-details">
 	<h3 class="social-content-title"><?php print $contact_title; ?></h3>
 	<div class="contact-content">
-		<h4>Address</h4>
-		<div class="contact-address"><?php print $contact_address; ?></div>
 		<?php foreach ($contact_info as $key => $contact_value) { ?>
 			<div class="fields contact-values">
-				<h4><?php print $key; ?></h4>
-				<div><?php print $contact_value; ?></div>
+				<h4><?php print $contact_value['label']; ?></h4>
+				<div><?php if (is_array($contact_value['value'])) { print $contact_value['value']['value']; } else { print $contact_value['value']; }  ?></div>
 			</div>
 		<?php } ?>
 	</div>
@@ -32,7 +30,7 @@
 	<h3 class="social-content-title"><?php print $social_title; ?></h3>
 	<div class="social-content">
 		<?php foreach ($social_info as $key => $social_value) { ?>
-				<div class="fields social-values"><a href="<?php print $social_value; ?>" rel="social_link" target="_blank"><?php print $key; ?></a></div>
+				<div class="social-values"><a href="<?php print $social_value["link"]; ?>" class="<?php print $social_value["class"]; ?>" rel="social_link" target="_blank"><?php if (isset($social_value['label'])) print $social_value['label']; ?></a></div>
 		<?php } ?>
 	</div>
 </div>
