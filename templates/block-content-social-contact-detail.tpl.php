@@ -6,9 +6,9 @@
  *
  * Available variables:
  * - $contact_title: Contact title.
- * - $contact_info: The Contact detail array which returns when value is not empty.
+ * - $contact_info: The Contact detail array returns when value is not empty.
  * - $social_title: Contact title.
- * - $social_info: The Social detail array which returns when value is not empty.
+ * - $social_info: The Social detail array returns when value is not empty.
  * - $user: The logged-in user detail.
  */
 ?>
@@ -22,7 +22,13 @@
       if (isset($contact_value) && !empty($contact_value)) { ?>
         <div class="contact-field contact-value-<?php print strtolower($contact_value['label']); ?>">
           <h4><?php print $contact_value['label']; ?></h4>
-          <div class="contact-field-<?php print strtolower($contact_value['label']); ?>"><?php if (is_array($contact_value['value'])) {print $contact_value['value']['value'];} else {print $contact_value['value'];} ?></div>
+          <div class="contact-field-<?php print strtolower($contact_value['label']); ?>">
+            <?php if (is_array($contact_value['value'])) {
+              print $contact_value['value']['value'];
+            } else {
+              print $contact_value['value'];
+            } ?>
+          </div>
         </div>
       <?php }
     } ?>
@@ -36,7 +42,12 @@
     <?php } ?>
     <div class="social-content">
       <?php foreach ($social_info as $key => $social_value) { ?>
-        <div class="social-field social-value-<?php print strtolower($social_value['label']); ?>"><a href="<?php print $social_value["link"]; ?>" class="social-link <?php print $social_value["class"]; ?>" rel="social_link" target="_blank"><?php if (isset($social_value['label'])) print $social_value['label']; ?></a></div>
+        <div class="social-field social-value-<?php print strtolower($social_value['label']); ?>">
+          <a href="<?php print $social_value["link"]; ?>" class="social-link <?php print $social_value["class"]; ?>" rel="social_link" target="_blank"><?php if (isset($social_value['label'])) {
+              print $social_value['label'];
+         } ?>
+          </a>
+        </div>
       <?php } ?>
     </div>
   <?php } ?>

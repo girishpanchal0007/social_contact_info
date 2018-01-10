@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Social Contact Information helps to add social links and contact detail for website.
+ * Social Contact Information helps to add social & contact details for website.
  */
 
 /**
@@ -54,7 +54,7 @@ function social_contact_info_block_info() {
  */
 function social_contact_info_block_configure($delta = '') {
   // Declare $form array.
-  $form = array(); 
+  $form = array();
   // Get variables for contact and social details.
   $values = array(
     'contact_detail' => variable_get('social_contact_info_contact_detail', array()),
@@ -346,7 +346,7 @@ function social_contact_info_block_configure($delta = '') {
 }
 
 /**
- * Implements hook_block_save()
+ * Implements hook_block_save().
  */
 function social_contact_info_block_save($delta = '', $edit = array()) {
   // Checking that social contact info block is exist or not.
@@ -379,7 +379,7 @@ function social_contact_info_block_view($delta = '') {
 }
 
 /**
- ** Processes variables for block-content-social-content-detail.tpl.php.
+ * Processes variables for block-content-social-content-detail.tpl.php.
  *
  * Implementation of hook_preprocess_HOOK().
  */
@@ -387,31 +387,31 @@ function template_preprocess_social_contact_info_contact_social_detail(&$variabl
   // Contact details.
   $contact_details = $variables['contact_detail'];
   if (isset($contact_details["address"]) && !empty($contact_details["address"]["value"]["value"])) {
-    $contact_values_slice = array_slice($contact_details, 1);  
-  } else {
-    $contact_values_slice = array_slice($contact_details, 2); 
+    $contact_values_slice = array_slice($contact_details, 1);
+  }
+  else {
+    $contact_values_slice = array_slice($contact_details, 2);
   }
   // Global variable.
   $contact_values = array();
   foreach ($contact_values_slice as $contact_key => $contact_value) {
-    // Checking label is set or not
+    // Checking label is set or not.
     if (isset($contact_value['value']) && !empty($contact_value['value'])) {
       // Checking label if labels are blank then array key used as labels.
-      if ($contact_value['label'] == '' ) {
+      if ($contact_value['label'] == '') {
         $contact_value['label'] = ucfirst($contact_key);
       }
-     // Assigned changes label and values to new object variables.
+      // Assigned changes label and values to new object variables.
       $contact_values[] = $contact_value;
     }
-    
-  }  
+  }
   // Social medias.
   $social_details = $variables['social_detail'];
   $social_values_slice = array_slice($social_details, 1);
   // Global variable.
   $social_values = array();
   foreach ($social_values_slice as $social_key => $social_value) {
-    // Checking label is set or not
+    // Checking label is set or not.
     if (isset($social_value['link']) && !empty($social_value['link'])) {
       // Checking label if labels are blank then array key used as labels.
       $social_value['label'] = ucfirst(str_replace('_', ' ', $social_key));
