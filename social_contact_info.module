@@ -41,10 +41,9 @@ function social_contact_info_theme($existing, $type, $theme, $path) {
  * Implements hook_block_info().
  */
 function social_contact_info_block_info() {
-  $blocks['social_contact_info'] = array(
+  $blocks['information'] = array(
     'info'   => t('Social Contact Info'),
-    'cache'  => DRUPAL_CACHE_PER_ROLE,
-    'status' => TRUE,
+    'cache'  => DRUPAL_NO_CACHE,
   );
   return $blocks;
 }
@@ -61,7 +60,7 @@ function social_contact_info_block_configure($delta = '') {
     'social_detail' => variable_get('social_contact_info_social_detail', array()),
   );
   // Checking that social contact info block is exist or not.
-  if ($delta == 'social_contact_info') {
+  if ($delta === 'information') {
     // Website contact information.
     $form['contact_detail'] = array(
       '#type' => 'fieldset',
@@ -78,6 +77,9 @@ function social_contact_info_block_configure($delta = '') {
       '#type' => 'textfield',
       '#title' => t('Contact Title'),
       '#description' => t('This is contact title which helps to show contact title on top of the contact section. (This is optional.)'),
+      '#attributes' => array(
+        'placeholder' => t('Contact Title'),
+      ),
       '#default_value' => isset($contact_values['contact_title']) ? $contact_values['contact_title'] : '',
     );
     // Address section.
@@ -350,7 +352,7 @@ function social_contact_info_block_configure($delta = '') {
  */
 function social_contact_info_block_save($delta = '', $edit = array()) {
   // Checking that social contact info block is exist or not.
-  if ($delta == 'social_contact_info') {
+  if ($delta === 'information') {
     // Contact detail array of fields.
     variable_set('social_contact_info_contact_detail', $edit['contact_detail']);
     // Social detail array of fields.
@@ -363,7 +365,7 @@ function social_contact_info_block_save($delta = '', $edit = array()) {
  */
 function social_contact_info_block_view($delta = '') {
   $block = array();
-  if ($delta == 'social_contact_info') {
+  if ($delta === 'information') {
     $block['subject'] = t('Contact Us');
     $block['content'] = array(
       '#theme' => 'social_contact_info_contact_social_detail',
