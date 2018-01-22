@@ -1,0 +1,43 @@
+{#
+/**
+ * @ingroup themeable
+ */
+#}
+
+<div class="block-contact-details">
+
+    <h3 class="social-content-title">{{ contact_title1 }}</h3>
+
+  <div class="contact-content">
+    {% for contact_value in contact_detail %}
+
+        <div class="contact-field contact-value-{{ contact_value.label }}">
+          <h4>{{ contact_value.label }}</h4>
+          <div class="contact-field-{{ contact_value.label }}">
+            
+              {{ contact_value.value }}
+     
+          </div>
+        </div>
+      
+    {% endfor %}
+  </div>
+</div>
+
+<div class="block-social-details">
+
+
+      <h3 class="social-content-title">{{ social_title1 }}</h3>
+
+    <div class="social-content">
+      {% for social_value in social_detail %}
+        <div class="social-field social-value-{{ social_value.label }}">
+          <a href="{{ social_value.link }}" class="social-link {{ social_value.class }}" rel="social_link" target="_blank">
+              {{ social_value.label }}
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+
+</div>
+

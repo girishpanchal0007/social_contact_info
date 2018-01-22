@@ -23,8 +23,6 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
   public function blockForm($form, FormStateInterface $form_state) {
     $form = parent::blockForm($form, $form_state);
 
-    $configuration = $this->getConfiguration();
-
     $form['contact_detail'] = array(
       '#type' => 'details',
       '#title' => $this->t('Contact Informations'),
@@ -300,25 +298,11 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
     parent::blockSubmit($form, $form_state);
-    // Get values.
-    $values = $form_state->getValues();
-    $contact_details = $values['contact_detail'];
-    $social_details = $values['social_detail'];
-    // Slice first value from contact and social info.
-    $contact_values = array_slice($contact_details, 1);
-    $social_values = array_slice($social_details, 1);
-    // Store contact title.
     $this->configuration['contact_detail']['contact_title'] = $contact_details['contact_title'];
-    foreach ($contact_values as $key => $contact_value) {
-      $this->configuration['contact_detail'][$key]['label'] = $contact_value['label'];
-      $this->configuration['contact_detail'][$key]['value'] = $contact_value['value'];
-    }
-    // Store social title.
     $this->configuration['social_detail']['social_title'] = $social_details['social_title'];
-    foreach ($social_values as $key => $social_value) {
-      $this->configuration['social_detail'][$key]['link'] = $social_value['link'];
-      $this->configuration['social_detail'][$key]['class'] = $social_value['class'];
-    }
+    $this->setConfigurationValue('contact_detail', $form_state->getValue('contact_detail'));
+    $this->setConfigurationValue('social_detail', $form_state->getValue('social_detail'));
+    
 
   }
 
@@ -326,18 +310,65 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
    * {@inheritdoc}
    */
   public function build() {
-    $config = $this->getConfiguration();
+    $configuration = $this->getConfiguration();
+    // Assing both the value to custom variable.
+    $contact_details = $configuration['contact_detail'];
 
-    if (!empty($config['hello_block_name'])) {
-      $name = $config['hello_block_name'];
+    // Slice first value from contact and social info.
+    if (isset($contact_details["address"]) && !empty($contact_details["address"]["value"]["value"])) {
+      $contact_slice_val = array_slice($contact_details, 1);
     }
     else {
-      $name = $this->t('to no one');
+      $contact_slice_val = array_slice($contact_details, 2);
     }
-    return array(
-      '#markup' => $this->t('Hello @name!', array(
-        '@name' => $name,
-      )),
-    );
+    // Global variable.
+    $contact_values = array();
+    foreach ($contact_slice_val as $contact_key => $contact_value) {
+      // Checking label is set or not.
+      if (isset($contact_value['value']) && !empty($contact_value['value'])) {
+        // Checking label if labels are blank then array key used as labels.
+        if ($contact_value['label'] == '') {
+          $contact_value['label'] = ucfirst($contact_key);
+        }
+        // Added "mailto:" for email field.
+        if ($contact_key == 'email') {
+          $contact_value['value'] = '<a href="mailto:' . $contact_value['value'] . '" rel="' . $contact_key . '" >' . $contact_value['value'] . '</a>';
+        }
+        // Added "tel:" for phone & mobile field.
+        if ($contact_key == 'phone' || $contact_key == 'mobile') {
+          $contact_value['value'] = '<a href="tel:' . $contact_value['value'] . '" rel="' . $contact_key . '" >' . $contact_value['value'] . '</a>';
+        }
+        // Assigned changes label and values to new object variables.
+        $contact_values[] = $contact_value;
+      }
+    }
+    // Social medias.
+    $social_details = $configuration['social_detail'];
+    $social_slice_val = array_slice($social_details, 1);
+    // Global variable.
+    $social_values = array();
+    foreach ($social_slice_val as $social_key => $social_value) {
+      // Checking label is set or not.
+      if (isset($social_value['link']) && !empty($social_value['link'])) {
+        // Checking label if labels are blank then array key used as labels.
+        $social_value['label'] = ucfirst(str_replace('_', ' ', $social_key));
+        // Assigned changes label and link to new object variables.
+        $social_values[] = $social_value;
+      }
+    }
+    // Assign array to $output variable.
+    $output = [
+      '#theme' => 'social_contact_info_block',
+      '#contact_title' => $contact_details['contact_title'],
+      '#contact_detail' => $contact_values,
+      '#social_title' => $social_details['social_title'],
+      '#social_detail' => $social_values,
+      '#attached' => [
+        'library' => ['social_contact_info/social_contact_info.css'],
+      ],
+    ];
+
+    return $output;
   }
+
 }
