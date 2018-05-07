@@ -92,7 +92,7 @@ function social_contact_info_block_configure($delta = '') {
     );
     $form['contact_detail']['address']['label'] = array(
       '#type' => 'textfield',
-      '#title' => t('Label'),
+      '#title' => t('Title'),
       '#description' => t('If you will enter label here the label will be shown otherwise default label will show.'),
       '#default_value' => isset($contact_values['address']['label']) ? $contact_values['address']['label'] : '',
     );
@@ -102,6 +102,13 @@ function social_contact_info_block_configure($delta = '') {
       '#resizable' => FALSE,
       '#format' => 'full_html',
       '#default_value' => isset($contact_values['address']['value']['value']) ? $contact_values['address']['value']['value'] : '',
+    );
+    $form['contact_detail']['address']['weight'] = array(
+      '#type' => 'weight',
+      '#title' => t('Weight'),
+      '#default_value' => isset($contact_values['address']['weight']) ? $contact_values['address']['weight'] : 1,
+      '#delta' => 5,
+      '#description' => t('Optional, This helps to sort contact fields.'),
     );
     // E-mail section.
     $form['contact_detail']['email'] = array(
@@ -113,7 +120,7 @@ function social_contact_info_block_configure($delta = '') {
     );
     $form['contact_detail']['email']['label'] = array(
       '#type' => 'textfield',
-      '#title' => t('Label'),
+      '#title' => t('Title'),
       '#description' => t('If you will enter label here the label will be shown otherwise default label will show.'),
       '#default_value' => isset($contact_values['email']['label']) ? $contact_values['email']['label'] : '',
     );
@@ -123,6 +130,13 @@ function social_contact_info_block_configure($delta = '') {
       '#description' => t('This is website email field which helps to show website email. (This is required.)'),
       '#default_value' => isset($contact_values['email']['value']) ? $contact_values['email']['value'] : '',
       '#required' => TRUE,
+    );
+    $form['contact_detail']['email']['weight'] = array(
+      '#type' => 'weight',
+      '#title' => t('Weight'),
+      '#default_value' => isset($contact_values['email']['weight']) ? $contact_values['email']['weight'] : 2,
+      '#delta' => 5,
+      '#description' => t('Optional, This helps to sort contact fields.'),
     );
     // Phone section.
     $form['contact_detail']['phone'] = array(
@@ -134,7 +148,7 @@ function social_contact_info_block_configure($delta = '') {
     );
     $form['contact_detail']['phone']['label'] = array(
       '#type' => 'textfield',
-      '#title' => t('Label'),
+      '#title' => t('Title'),
       '#description' => t('If you will enter label here the label will be shown otherwise default label will show.'),
       '#default_value' => isset($contact_values['phone']['label']) ? $contact_values['phone']['label'] : '',
     );
@@ -143,6 +157,13 @@ function social_contact_info_block_configure($delta = '') {
       '#title' => t('Value'),
       '#description' => t('This is website phone number field which helps to show website phone number. (This is optional.)'),
       '#default_value' => isset($contact_values['phone']['value']) ? $contact_values['phone']['value'] : '',
+    );
+    $form['contact_detail']['phone']['weight'] = array(
+      '#type' => 'weight',
+      '#title' => t('Weight'),
+      '#default_value' => isset($contact_values['phone']['weight']) ? $contact_values['phone']['weight'] : 3,
+      '#delta' => 5,
+      '#description' => t('Optional, This helps to sort contact fields.'),
     );
     // Mobile section.
     $form['contact_detail']['mobile'] = array(
@@ -154,7 +175,7 @@ function social_contact_info_block_configure($delta = '') {
     );
     $form['contact_detail']['mobile']['label'] = array(
       '#type' => 'textfield',
-      '#title' => t('Label'),
+      '#title' => t('Title'),
       '#description' => t('If you will enter label here the label will be shown otherwise default label will show.'),
       '#default_value' => isset($contact_values['mobile']['label']) ? $contact_values['mobile']['label'] : '',
     );
@@ -163,6 +184,13 @@ function social_contact_info_block_configure($delta = '') {
       '#title' => t('Value'),
       '#description' => t('This is website mobile number field which helps to show website mobile number. (This is optional.)'),
       '#default_value' => isset($contact_values['mobile']['value']) ? $contact_values['mobile']['value'] : '',
+    );
+    $form['contact_detail']['mobile']['weight'] = array(
+      '#type' => 'weight',
+      '#title' => t('Weight'),
+      '#default_value' => isset($contact_values['mobile']['weight']) ? $contact_values['mobile']['weight'] : 4,
+      '#delta' => 5,
+      '#description' => t('Optional, This helps to sort contact fields.'),
     );
     // Fax section.
     $form['contact_detail']['fax'] = array(
@@ -174,7 +202,7 @@ function social_contact_info_block_configure($delta = '') {
     );
     $form['contact_detail']['fax']['label'] = array(
       '#type' => 'textfield',
-      '#title' => t('Label'),
+      '#title' => t('Title'),
       '#description' => t('If you will enter label here the label will be shown otherwise default label will show.'),
       '#default_value' => isset($contact_values['fax']['label']) ? $contact_values['fax']['label'] : '',
     );
@@ -184,6 +212,14 @@ function social_contact_info_block_configure($delta = '') {
       '#description' => t('This is website fax number field which helps to show website fax number.'),
       '#default_value' => isset($contact_values['fax']['value']) ? $contact_values['fax']['value'] : '',
     );
+    $form['contact_detail']['fax']['weight'] = array(
+      '#type' => 'weight',
+      '#title' => t('Weight'),
+      '#default_value' => isset($contact_values['fax']['weight']) ? $contact_values['fax']['weight'] : 5,
+      '#delta' => 5,
+      '#description' => t('Optional, This helps to sort contact fields.'),
+    );
+
     // Website Social information.
     $form['social_detail'] = array(
       '#type' => 'fieldset',
@@ -228,6 +264,13 @@ function social_contact_info_block_configure($delta = '') {
       '#description' => t('Here you can add your custom class to the image. (This is optional field).'),
       '#default_value' => isset($social_values['facebook']['class']) ? $social_values['facebook']['class'] : '',
     );
+    $form['social_detail']['facebook']['weight'] = array(
+      '#type' => 'weight',
+      '#title' => t('Weight'),
+      '#default_value' => isset($contact_values['facebook']['weight']) ? $contact_values['facebook']['weight'] : 1,
+      '#delta' => 10,
+      '#description' => t('Optional, This helps to sort social fields.'),
+    );
     // LinkedIn section.
     $form['social_detail']['linkedin'] = array(
       '#type' => 'fieldset',
@@ -250,6 +293,13 @@ function social_contact_info_block_configure($delta = '') {
       '#title' => t('Link Class'),
       '#description' => t('Here you can add your custom class to the image. (This is optional field).'),
       '#default_value' => isset($social_values['linkedin']['class']) ? $social_values['linkedin']['class'] : '',
+    );
+    $form['social_detail']['linkedin']['weight'] = array(
+      '#type' => 'weight',
+      '#title' => t('Weight'),
+      '#default_value' => isset($contact_values['linkedin']['weight']) ? $contact_values['linkedin']['weight'] : 2,
+      '#delta' => 10,
+      '#description' => t('Optional, This helps to sort social fields.'),
     );
     // Twitter section.
     $form['social_detail']['twitter'] = array(
@@ -274,6 +324,13 @@ function social_contact_info_block_configure($delta = '') {
       '#description' => t('Here you can add your custom class to the image. (This is optional field).'),
       '#default_value' => isset($social_values['twitter']['class']) ? $social_values['twitter']['class'] : '',
     );
+    $form['social_detail']['twitter']['weight'] = array(
+      '#type' => 'weight',
+      '#title' => t('Weight'),
+      '#default_value' => isset($contact_values['twitter']['weight']) ? $contact_values['twitter']['weight'] : 3,
+      '#delta' => 10,
+      '#description' => t('Optional, This helps to sort social fields.'),
+    );
     // Youtube section.
     $form['social_detail']['youtube'] = array(
       '#type' => 'fieldset',
@@ -296,6 +353,13 @@ function social_contact_info_block_configure($delta = '') {
       '#title' => t('Link Class'),
       '#description' => t('Here you can add your custom class to the image. (This is optional field).'),
       '#default_value' => isset($social_values['youtube']['class']) ? $social_values['youtube']['class'] : '',
+    );
+    $form['social_detail']['youtube']['weight'] = array(
+      '#type' => 'weight',
+      '#title' => t('Weight'),
+      '#default_value' => isset($contact_values['youtube']['weight']) ? $contact_values['youtube']['weight'] : 4,
+      '#delta' => 10,
+      '#description' => t('Optional, This helps to sort social fields.'),
     );
     // Google plus section.
     $form['social_detail']['google_plus'] = array(
@@ -320,6 +384,13 @@ function social_contact_info_block_configure($delta = '') {
       '#description' => t('Here you can add your custom class to the image. (This is optional field).'),
       '#default_value' => isset($social_values['google_plus']['class']) ? $social_values['google_plus']['class'] : '',
     );
+    $form['social_detail']['google_plus']['weight'] = array(
+      '#type' => 'weight',
+      '#title' => t('Weight'),
+      '#default_value' => isset($contact_values['google_plus']['weight']) ? $contact_values['google_plus']['weight'] : 5,
+      '#delta' => 10,
+      '#description' => t('Optional, This helps to sort social fields.'),
+    );
     // Instagram section.
     $form['social_detail']['instagram'] = array(
       '#type' => 'fieldset',
@@ -342,6 +413,13 @@ function social_contact_info_block_configure($delta = '') {
       '#title' => t('Link Class'),
       '#description' => t('Here you can add your custom class to the image. (This is optional field).'),
       '#default_value' => isset($social_values['instagram']['class']) ? $social_values['instagram']['class'] : '',
+    );
+    $form['social_detail']['instagram']['weight'] = array(
+      '#type' => 'weight',
+      '#title' => t('Weight'),
+      '#default_value' => isset($contact_values['instagram']['weight']) ? $contact_values['instagram']['weight'] : 6,
+      '#delta' => 10,
+      '#description' => t('Optional, This helps to sort social fields.'),
     );
   }
   return $form;
@@ -411,10 +489,13 @@ function template_preprocess_social_contact_info_contact_social_detail(&$variabl
       if ($contact_key == 'phone' || $contact_key == 'mobile') {
         $contact_value['value'] = '<a href="tel:' . $contact_value['value'] . '" rel="' . $contact_key . '" >' . $contact_value['value'] . '</a>';
       }
-      // Assigned changes label and values to new object variables.
-      $contact_values[] = $contact_value;
+      // Assigned changes label and values to new object variables with sorting.
+      $contact_values[$contact_value['weight']] = $contact_value;
+      // Sorting by the field weight.
+      ksort($contact_values);
     }
   }
+
   // Social medias.
   $social_details = $variables['social_detail'];
   $social_values_slice = array_slice($social_details, 1);
@@ -425,8 +506,10 @@ function template_preprocess_social_contact_info_contact_social_detail(&$variabl
     if (isset($social_value['link']) && !empty($social_value['link'])) {
       // Checking label if labels are blank then array key used as labels.
       $social_value['label'] = ucfirst(str_replace('_', ' ', $social_key));
-      // Assigned changes label and link to new object variables.
-      $social_values[] = $social_value;
+      // Assigned changes label and link to new object variables with sorting.
+      $social_values[$social_value['weight']] = $social_value;
+      // Sorting by the field weight.
+      ksort($social_values);
     }
   }
   // Contact details.
