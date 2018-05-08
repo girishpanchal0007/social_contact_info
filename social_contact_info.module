@@ -473,7 +473,7 @@ function template_preprocess_social_contact_info_contact_social_detail(&$variabl
     $contact_values_slice = array_slice($contact_details, 2);
   }
   // Get contact fields after sorting.
-  $sort_contact_values = social_contact_info_array_sort($contact_values_slice, 'weight');
+  $sort_contact_values = social_contact_info_array_sort_by_weight($contact_values_slice, 'weight');
   // Global variable.
   $contact_values = array();
   foreach ($sort_contact_values as $contact_key => $contact_value) {
