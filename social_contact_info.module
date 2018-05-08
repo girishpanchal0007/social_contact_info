@@ -500,7 +500,7 @@ function template_preprocess_social_contact_info_contact_social_detail(&$variabl
   $social_details = $variables['social_detail'];
   $social_values_slice = array_slice($social_details, 1);
   // Get social fields after sorting.
-  $sort_social_values = social_contact_info_array_sort($social_values_slice, 'weight');
+  $sort_social_values = social_contact_info_array_sort_by_weight($social_values_slice, 'weight');
   // Global variable.
   $social_values = array();
   foreach ($sort_social_values as $social_key => $social_value) {
@@ -523,7 +523,7 @@ function template_preprocess_social_contact_info_contact_social_detail(&$variabl
 /**
  * Implementation of sorting social and contact fields.
  */
-function social_contact_info_array_sort($array_values, $sub_key) {
+function social_contact_info_array_sort_by_weight($array_values, $sub_key) {
   foreach ($array_values as $key => $array_value) {
     $sort_array_values[$key] = strtolower($array_value[$sub_key]);
   }
