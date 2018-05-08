@@ -42,9 +42,9 @@
     <?php } ?>
     <div class="social-content">
       <?php foreach ($social_info as $key => $social_value) { ?>
-        <div class="social-field social-value-<?php print strtolower($social_value['label']); ?>">
-          <a href="<?php print $social_value["link"]; ?>" class="social-link <?php print $social_value["class"]; ?>" rel="social_link" target="_blank"><?php if (isset($social_value['label'])) {
-              print $social_value['label'];
+        <div class="social-field social-value-<?php print strtolower($social_value['label']); ?>" id="social-weight-<?php print $social_value['weight']; ?>">
+          <a href="<?php print $social_value['link']; ?>" class="social-link <?php print $social_value['class']; ?>" rel="social_link" target="_blank"><?php if (isset($social_value['label'])) {
+            print $social_value['label'];
          } ?>
           </a>
         </div>
