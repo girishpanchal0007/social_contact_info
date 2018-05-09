@@ -18,19 +18,22 @@
     <h3 class="social-content-title"><?php print $contact_title; ?></h3>
   <?php } ?>
   <div class="contact-content">
-    <?php foreach ($contact_info as $key => $contact_value) {
-      if (isset($contact_value) && !empty($contact_value)) { ?>
-        <div class="contact-field contact-value-<?php print strtolower($contact_value['label']); ?>" id="contact-weight-<?php print $contact_value['weight']; ?>">
-          <h4><?php print $contact_value['label']; ?></h4>
-          <div class="contact-field-<?php print strtolower($contact_value['label']); ?>">
-            <?php if (is_array($contact_value['value'])) {
-              print $contact_value['value']['value'];
-            } else {
-              print $contact_value['value'];
-            } ?>
+    <?php
+    if (!empty($contact_info)) {
+      foreach ($contact_info as $key => $contact_value) {
+        if (isset($contact_value) && !empty($contact_value)) { ?>
+          <div class="contact-field contact-value-<?php print strtolower($contact_value['label']); ?>" id="contact-weight-<?php print $contact_value['weight']; ?>">
+            <h4><?php print $contact_value['label']; ?></h4>
+            <div class="contact-field-<?php print strtolower($contact_value['label']); ?>">
+              <?php if (is_array($contact_value['value'])) {
+                print $contact_value['value']['value'];
+              } else {
+                print $contact_value['value'];
+              } ?>
+            </div>
           </div>
-        </div>
-      <?php }
+        <?php }
+      }
     } ?>
   </div>
 </div>

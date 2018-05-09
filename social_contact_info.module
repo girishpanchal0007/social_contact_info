@@ -464,6 +464,12 @@ function social_contact_info_block_view($delta = '') {
  * Implementation of hook_preprocess_HOOK().
  */
 function template_preprocess_social_contact_info_contact_social_detail(&$variables) {
+  // The social contact information is not set then show the warning message.
+  if (empty($variables['contact_detail']) || empty($variables['social_detail'])) {
+    drupal_set_message(t('The social contact info block information not added yet. Please add social contact info information from <a href="@blocks">here</a>.', ['@blocks' => url('admin/structure/block')]), 'warning');
+    return;
+  }
+
   // Contact details.
   $contact_details = $variables['contact_detail'];
   if (isset($contact_details["address"]) && !empty($contact_details["address"]["value"]["value"])) {
