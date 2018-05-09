@@ -1,26 +1,27 @@
 INTRODUCTION
 ------------
 
-Social Contact information provides an option to display
-contact and social information in a block anywhere in your site.
+Social Contact information provides an option to display contact and social
+information in a block anywhere in your site.
 
-We have given contact fields like (e.g. Address, E-mail, Phone, Mobile
-and Fax) and social link fields like (e.g. Facebook, LinkedIn,
-Twitter, Youtube, Google Plus, and Instagram).
+We have given the contact fields like (e.g. Address, E-mail, Phone, Mobile,
+and Fax) and social links fields like (e.g. Facebook, LinkedIn, Twitter,
+Youtube, Google Plus, and Instagram).
 
-We have given an option to add custom contact title to the
-contact information section and this is same for social media links.
+Also, We have given an option to add custom contact title to the
+contact information section and social media links too.
 
-For contact information, We have made email field as required and other
-all fields are optional. If you will not add any value to those
-fields then those fields will not list on your site.
-If you will not add any label to those fields then
-the label will display as a fieldset/section title.
+For contact details, We have made email field as required field and other all
+the fields are optional fields. If you won't add any value to those fields
+then those fields won't show on your site.
 
-For contact information, We have given the class option for all
-the links where you will able to add class to display image
-like (custom CSS image or font-awesome). You will need to add
-social media links like I have added the placeholder for those fields.
+And for the label, If you won't add the label to those fields then the
+fieldset/section will be displayed as a label.
+
+For social details, We have given the class field for all the links
+where you will able to add multiple classes to display your image
+like(background image using CSS and Font-awesome).
+You can add social media links like the mentioned placeholder for those fields.
 
 INSTALLATION
 ------------

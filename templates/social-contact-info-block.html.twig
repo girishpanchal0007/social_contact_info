@@ -21,7 +21,7 @@
   <div class="contact-content">
     {% for contact_value in contact_detail %}
       {% if contact_value is defined and contact_value is not empty %}
-        <div class="contact-field contact-value-{{ contact_value.label }}">
+        <div class="contact-field contact-value-{{ contact_value.label }}" id="contact-weight-{{ contact_value.weight }}">
           <h4>{{ contact_value.label }}</h4>
           <div class="contact-field-{{ contact_value.label|lower }}">
             {% if contact_value.value is iterable %}
@@ -44,7 +44,7 @@
   {% endif %}
   <div class="social-content">
     {% for social_value in social_detail %}
-      <div class="social-field social-value-{{ social_value.label|lower }}">
+      <div class="social-field social-value-{{ social_value.label|lower }}" id="social-weight-{{ social_value.weight }}">
         <a href="{{ social_value.link }}" class="social-link {{ social_value.class }}" rel="social_link" target="_blank">
           {% if social_value.label is not empty %}
             {{ social_value.label }}

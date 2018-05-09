@@ -15,9 +15,11 @@ h3.social-content-title {
 .contact-content .contact-field a {
   color: #000;
   cursor: pointer;
+  border-bottom: none;
 }
 .contact-content .contact-field a:hover {
   text-decoration: none;
+  border-bottom: none;
 }
 .social-content .social-field {
   margin: 10px 0;
