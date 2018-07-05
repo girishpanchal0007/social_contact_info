@@ -64,7 +64,7 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
       '#title' => $this->t('Weight'),
       '#default_value' => isset($this->configuration['contact_detail']['address']['weight']) ? $this->configuration['contact_detail']['address']['weight'] : 0,
       '#delta' => 5,
-      '#description' => t('Optional, This helps to sort contact fields.'),
+      '#description' => $this->t('Optional, This helps to sort contact fields.'),
     ];
     // E-mail section.
     $form['contact_detail']['email'] = [
@@ -89,7 +89,7 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
       '#title' => $this->t('Weight'),
       '#default_value' => isset($this->configuration['contact_detail']['email']['weight']) ? $this->configuration['contact_detail']['email']['weight'] : 1,
       '#delta' => 5,
-      '#description' => t('Optional, This helps to sort contact fields.'),
+      '#description' => $this->t('Optional, This helps to sort contact fields.'),
     ];
     // Phone section.
     $form['contact_detail']['phone'] = [
@@ -114,7 +114,7 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
       '#title' => $this->t('Weight'),
       '#default_value' => isset($this->configuration['contact_detail']['phone']['weight']) ? $this->configuration['contact_detail']['phone']['weight'] : 2,
       '#delta' => 5,
-      '#description' => t('Optional, This helps to sort contact fields.'),
+      '#description' => $this->t('Optional, This helps to sort contact fields.'),
     ];
     // Mobile section.
     $form['contact_detail']['mobile'] = [
@@ -139,7 +139,7 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
       '#title' => $this->t('Weight'),
       '#default_value' => isset($this->configuration['contact_detail']['mobile']['weight']) ? $this->configuration['contact_detail']['mobile']['weight'] : 3,
       '#delta' => 5,
-      '#description' => t('Optional, This helps to sort contact fields.'),
+      '#description' => $this->t('Optional, This helps to sort contact fields.'),
     ];
     // Fax section.
     $form['contact_detail']['fax'] = [
@@ -164,7 +164,7 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
       '#title' => $this->t('Weight'),
       '#default_value' => isset($this->configuration['contact_detail']['fax']['weight']) ? $this->configuration['contact_detail']['fax']['weight'] : 4,
       '#delta' => 5,
-      '#description' => t('Optional, This helps to sort contact fields.'),
+      '#description' => $this->t('Optional, This helps to sort contact fields.'),
     ];
     // Website Social information.
     $form['social_detail'] = [
@@ -210,7 +210,7 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
       '#title' => $this->t('Weight'),
       '#default_value' => isset($this->configuration['social_detail']['facebook']['weight']) ? $this->configuration['social_detail']['facebook']['weight'] : 0,
       '#delta' => 5,
-      '#description' => t('Optional, This helps to sort contact fields.'),
+      '#description' => $this->t('Optional, This helps to sort contact fields.'),
     ];
     // LinkedIn section.
     $form['social_detail']['linkedin'] = [
@@ -238,7 +238,7 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
       '#title' => $this->t('Weight'),
       '#default_value' => isset($this->configuration['social_detail']['linkedin']['weight']) ? $this->configuration['social_detail']['linkedin']['weight'] : 1,
       '#delta' => 5,
-      '#description' => t('Optional, This helps to sort contact fields.'),
+      '#description' => $this->t('Optional, This helps to sort contact fields.'),
     ];
     // Twitter section.
     $form['social_detail']['twitter'] = [
@@ -266,7 +266,7 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
       '#title' => $this->t('Weight'),
       '#default_value' => isset($this->configuration['social_detail']['twitter']['weight']) ? $this->configuration['social_detail']['twitter']['weight'] : 2,
       '#delta' => 5,
-      '#description' => t('Optional, This helps to sort contact fields.'),
+      '#description' => $this->t('Optional, This helps to sort contact fields.'),
     ];
     // Youtube section.
     $form['social_detail']['youtube'] = [
@@ -294,7 +294,7 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
       '#title' => $this->t('Weight'),
       '#default_value' => isset($this->configuration['social_detail']['youtube']['weight']) ? $this->configuration['social_detail']['youtube']['weight'] : 3,
       '#delta' => 5,
-      '#description' => t('Optional, This helps to sort contact fields.'),
+      '#description' => $this->t('Optional, This helps to sort contact fields.'),
     ];
     // Google plus section.
     $form['social_detail']['google_plus'] = [
@@ -322,7 +322,7 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
       '#title' => $this->t('Weight'),
       '#default_value' => isset($this->configuration['social_detail']['google_plus']['weight']) ? $this->configuration['social_detail']['google_plus']['weight'] : 4,
       '#delta' => 5,
-      '#description' => t('Optional, This helps to sort contact fields.'),
+      '#description' => $this->t('Optional, This helps to sort contact fields.'),
     ];
     // Instagram section.
     $form['social_detail']['instagram'] = [
@@ -350,7 +350,7 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
       '#title' => $this->t('Weight'),
       '#default_value' => isset($this->configuration['social_detail']['instagram']['weight']) ? $this->configuration['social_detail']['instagram']['weight'] : 5,
       '#delta' => 5,
-      '#description' => t('Optional, This helps to sort contact fields.'),
+      '#description' => $this->t('Optional, This helps to sort contact fields.'),
     ];
 
     return $form;
@@ -365,10 +365,10 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
     // Email address validation.
     $contact_email = $values['contact_detail']['email']['value'];
     if ($contact_email == '') {
-      $form_state->setError($values, t('Email field is required.'));
+      $form_state->setError($values, $this->t('Email field is required.'));
     }
     elseif ($contact_email != '' && !\Drupal::service('email.validator')->isValid($contact_email)) {
-      $form_state->setError($values, t('The email address %mail is not valid.', ['%mail' => $contact_email]));
+      $form_state->setError($values, $this->t('The email address %mail is not valid.', ['%mail' => $contact_email]));
     }
   }
 
