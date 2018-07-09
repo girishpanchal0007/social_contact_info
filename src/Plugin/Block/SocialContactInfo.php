@@ -368,7 +368,7 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
     if ($contact_email == '') {
       $form_state->setErrorByName('email', $this->t('Email field is required.'));
     }
-    elseif ($contact_email != '' && ! $this->isValidEmailAddress($contact_email)) {
+    elseif ($contact_email != '' && !$this->isValidEmailAddress($contact_email)) {
       $form_state->setErrorByName('email', $this->t('The email address %mail is not valid.', ['%mail' => $contact_email]));
     }
   }
@@ -473,9 +473,11 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
   /**
    * Create function to validate email.
    *
-   * @static
-   * @param $emailAddress
+   * @param string $emailAddress
+   *   The email address come from block contact email to validation it.
+   *
    * @return bool
+   *   The email address is true or false.
    */
   public static function isValidEmailAddress($emailAddress) {
     $validator = new EmailValidator();
