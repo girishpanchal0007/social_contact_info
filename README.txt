@@ -23,6 +23,11 @@ where you will able to add multiple classes to display your image
 like(background image using CSS and Font-awesome).
 You can add social media links like the mentioned placeholder for those fields.
 
+REQUIREMENTS
+------------
+
+No special requirements.
+
 INSTALLATION
 ------------
 
