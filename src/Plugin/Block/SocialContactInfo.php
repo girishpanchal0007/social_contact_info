@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Block\BlockPluginInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Utility\Unicode;
+use Egulias\EmailValidator\EmailValidator;
 
 /**
  * Provides a 'Hello' Block.
@@ -365,10 +366,10 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
     // Email address validation.
     $contact_email = $values['contact_detail']['email']['value'];
     if ($contact_email == '') {
-      $form_state->setError($values, $this->t('Email field is required.'));
+      $form_state->setErrorByName('email', $this->t('Email field is required.'));
     }
-    elseif ($contact_email != '' && !\Drupal::service('email.validator')->isValid($contact_email)) {
-      $form_state->setError($values, $this->t('The email address %mail is not valid.', ['%mail' => $contact_email]));
+    elseif ($contact_email != '' && ! $this->isValidEmailAddress($contact_email)) {
+      $form_state->setErrorByName('email', $this->t('The email address %mail is not valid.', ['%mail' => $contact_email]));
     }
   }
 
@@ -467,6 +468,18 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
       $sorting_value[$old_key] = $array_values[$old_key];
     }
     return $sorting_value;
+  }
+
+  /**
+   * Create function to validate email.
+   *
+   * @static
+   * @param $emailAddress
+   * @return bool
+   */
+  public static function isValidEmailAddress($emailAddress) {
+    $validator = new EmailValidator();
+    return $validator->isValid($emailAddress);
   }
 
 }
