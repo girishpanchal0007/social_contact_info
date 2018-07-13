@@ -130,6 +130,7 @@ function social_contact_info_block_configure($delta = '') {
       '#description' => t('This is website email field which helps to show website email. (This is required.)'),
       '#default_value' => isset($contact_values['email']['value']) ? $contact_values['email']['value'] : '',
       '#required' => TRUE,
+      '#element_validate' => array('social_contact_info_email_validate'),
     );
     $form['contact_detail']['email']['weight'] = array(
       '#type' => 'weight',
@@ -423,6 +424,15 @@ function social_contact_info_block_configure($delta = '') {
     );
   }
   return $form;
+}
+
+/**
+ * The function calls using "#element_validate" attribute.
+ */
+function social_contact_info_email_validate($element) {
+  if ((!empty($element['#value'])) && (!valid_email_address($element['#value']))) {
+    form_set_error('email', t('The email address %mail is not valid.', array('%mail' => $element['#value'])));
+  }
 }
 
 /**
