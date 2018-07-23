@@ -130,7 +130,7 @@ function social_contact_info_block_configure($delta = '') {
       '#description' => t('This is website email field which helps to show website email. (This is required.)'),
       '#default_value' => isset($contact_values['email']['value']) ? $contact_values['email']['value'] : '',
       '#required' => TRUE,
-      '#element_validate' => array('social_contact_info_email_validate'),
+      '#element_validate' => array('social_contact_info_contact_fields_validate'),
     );
     $form['contact_detail']['email']['weight'] = array(
       '#type' => 'weight',
@@ -158,6 +158,7 @@ function social_contact_info_block_configure($delta = '') {
       '#title' => t('Value'),
       '#description' => t('This is website phone number field which helps to show website phone number. (This is optional.)'),
       '#default_value' => isset($contact_values['phone']['value']) ? $contact_values['phone']['value'] : '',
+      '#element_validate' => array('social_contact_info_contact_fields_validate'),
     );
     $form['contact_detail']['phone']['weight'] = array(
       '#type' => 'weight',
@@ -185,6 +186,7 @@ function social_contact_info_block_configure($delta = '') {
       '#title' => t('Value'),
       '#description' => t('This is website mobile number field which helps to show website mobile number. (This is optional.)'),
       '#default_value' => isset($contact_values['mobile']['value']) ? $contact_values['mobile']['value'] : '',
+      '#element_validate' => array('social_contact_info_contact_fields_validate'),
     );
     $form['contact_detail']['mobile']['weight'] = array(
       '#type' => 'weight',
@@ -212,6 +214,7 @@ function social_contact_info_block_configure($delta = '') {
       '#title' => t('Value'),
       '#description' => t('This is website fax number field which helps to show website fax number.'),
       '#default_value' => isset($contact_values['fax']['value']) ? $contact_values['fax']['value'] : '',
+      '#element_validate' => array('social_contact_info_contact_fields_validate'),
     );
     $form['contact_detail']['fax']['weight'] = array(
       '#type' => 'weight',
@@ -258,6 +261,7 @@ function social_contact_info_block_configure($delta = '') {
         'placeholder' => t('https://www.facebook.com/username/'),
       ),
       '#default_value' => isset($social_values['facebook']['link']) ? $social_values['facebook']['link'] : '',
+      '#element_validate' => array('social_contact_info_social_fields_validate'),
     );
     $form['social_detail']['facebook']['class'] = array(
       '#type' => 'textfield',
@@ -288,6 +292,7 @@ function social_contact_info_block_configure($delta = '') {
         'placeholder' => t('https://www.linkedin.com/username/'),
       ),
       '#default_value' => isset($social_values['linkedin']['link']) ? $social_values['linkedin']['link'] : '',
+      '#element_validate' => array('social_contact_info_social_fields_validate'),
     );
     $form['social_detail']['linkedin']['class'] = array(
       '#type' => 'textfield',
@@ -318,6 +323,7 @@ function social_contact_info_block_configure($delta = '') {
         'placeholder' => t('https://twitter.com/username/'),
       ),
       '#default_value' => isset($social_values['twitter']['link']) ? $social_values['twitter']['link'] : '',
+      '#element_validate' => array('social_contact_info_social_fields_validate'),
     );
     $form['social_detail']['twitter']['class'] = array(
       '#type' => 'textfield',
@@ -348,6 +354,7 @@ function social_contact_info_block_configure($delta = '') {
         'placeholder' => t('https://www.youtube.com/username/'),
       ),
       '#default_value' => isset($social_values['youtube']['link']) ? $social_values['youtube']['link'] : '',
+      '#element_validate' => array('social_contact_info_social_fields_validate'),
     );
     $form['social_detail']['youtube']['class'] = array(
       '#type' => 'textfield',
@@ -378,6 +385,7 @@ function social_contact_info_block_configure($delta = '') {
         'placeholder' => t('https://www.plus.google.com/username/'),
       ),
       '#default_value' => isset($social_values['google_plus']['link']) ? $social_values['google_plus']['link'] : '',
+      '#element_validate' => array('social_contact_info_social_fields_validate'),
     );
     $form['social_detail']['google_plus']['class'] = array(
       '#type' => 'textfield',
@@ -408,6 +416,7 @@ function social_contact_info_block_configure($delta = '') {
         'placeholder' => t('https://www.instagram.com/username/'),
       ),
       '#default_value' => isset($social_values['instagram']['link']) ? $social_values['instagram']['link'] : '',
+      '#element_validate' => array('social_contact_info_social_fields_validate'),
     );
     $form['social_detail']['instagram']['class'] = array(
       '#type' => 'textfield',
@@ -427,11 +436,83 @@ function social_contact_info_block_configure($delta = '') {
 }
 
 /**
+ * The function calls using "#element_validate" of contact fields attribute.
+ */
+function social_contact_info_contact_fields_validate($element) {
+  // Email validation.
+  if ($element['#name'] == 'contact_detail[email][value]') {
+    if ((!empty($element['#value'])) && (!valid_email_address($element['#value']))) {
+      form_set_error('email', t('The email address %mail is not valid.', array('%mail' => $element['#value'])));
+    }
+  }
+  // Phone validation.
+  if (($element['#name'] == 'contact_detail[phone][value]') && (!empty($element['#value']))) {
+    if (!preg_match('/^[0-9\-\(\)\/\+\s]*$/', $element['#value'])) {
+      form_set_error('phone', t('The phone number %phone is not valid, It must be numeric.', array('%phone' => $element['#value'])));
+    }
+    if (strlen($element['#value']) < 5 || strlen($element['#value']) > 20) {
+      form_set_error('phone', t('The phone number length should be in between 5 to 15 digit.', array('%phone' => $element['#value'])));
+    }
+  }
+  // Mobile validation.
+  if (($element['#name'] == 'contact_detail[mobile][value]') && (!empty($element['#value']))) {
+    if (!preg_match('/^[0-9\-\(\)\/\+\s]*$/', $element['#value'])) {
+      form_set_error('mobile', t('The mobile number %mobile is not valid, It must be numeric.', array('%mobile' => $element['#value'])));
+    }
+    if (strlen($element['#value']) < 5 || strlen($element['#value']) > 20) {
+      form_set_error('mobile', t('The mobile number length should be in between 5 to 15 digit.', array('%mobile' => $element['#value'])));
+    }
+  }
+  // FAX validation.
+  if (($element['#name'] == 'contact_detail[fax][value]') && (!empty($element['#value']))) {
+    if (!preg_match('/^[0-9\-\(\)\/\+\s]*$/', $element['#value'])) {
+      form_set_error('fax', t('The fax number %fax is not valid, It must be numeric.', array('%fax' => $element['#value'])));
+    }
+    if (strlen($element['#value']) < 5 || strlen($element['#value']) > 20) {
+      form_set_error('fax', t('The fax number length should be in between 5 to 15 digit.', array('%fax' => $element['#value'])));
+    }
+  }
+}
+
+/**
  * The function calls using "#element_validate" attribute.
  */
-function social_contact_info_email_validate($element) {
-  if ((!empty($element['#value'])) && (!valid_email_address($element['#value']))) {
-    form_set_error('email', t('The email address %mail is not valid.', array('%mail' => $element['#value'])));
+function social_contact_info_social_fields_validate($element) {
+  // Facebook domain validation.
+  if (($element['#name'] == 'social_detail[facebook][link]') && (!empty($element['#value']))) {
+    if (!preg_match("/^(?:https?:\/\/)?(?:[a-z0-9-]+\.)*((?:[a-z0-9-]+\.)[a-z]+)/i", $element['#value'])) {
+      form_set_error('facebook', t('Please enter valid social information link.'));
+    }
+  }
+  // LinkedIn domain validation.
+  if (($element['#name'] == 'social_detail[linkedin][link]') && (!empty($element['#value']))) {
+    if (!preg_match("/^(?:https?:\/\/)?(?:[a-z0-9-]+\.)*((?:[a-z0-9-]+\.)[a-z]+)/i", $element['#value'])) {
+      form_set_error('linkedin', t('Please enter valid social information link.'));
+    }
+  }
+  // Twitter domain validation.
+  if (($element['#name'] == 'social_detail[twitter][link]') && (!empty($element['#value']))) {
+    if (!preg_match("/^(?:https?:\/\/)?(?:[a-z0-9-]+\.)*((?:[a-z0-9-]+\.)[a-z]+)/i", $element['#value'])) {
+      form_set_error('twitter', t('Please enter valid social information link.'));
+    }
+  }
+  // Youtube domain validation.
+  if (($element['#name'] == 'social_detail[youtube][link]') && (!empty($element['#value']))) {
+    if (!preg_match("/^(?:https?:\/\/)?(?:[a-z0-9-]+\.)*((?:[a-z0-9-]+\.)[a-z]+)/i", $element['#value'])) {
+      form_set_error('youtube', t('Please enter valid social information link.'));
+    }
+  }
+  // GooglePlus domain validation.
+  if (($element['#name'] == 'social_detail[google_plus][link]') && (!empty($element['#value']))) {
+    if (!preg_match("/^(?:https?:\/\/)?(?:[a-z0-9-]+\.)*((?:[a-z0-9-]+\.)[a-z]+)/i", $element['#value'])) {
+      form_set_error('google_plus', t('Please enter valid social information link.'));
+    }
+  }
+  // Instagram domain validation.
+  if (($element['#name'] == 'social_detail[instagram][link]') && (!empty($element['#value']))) {
+    if (!preg_match("/^(?:https?:\/\/)?(?:[a-z0-9-]+\.)*((?:[a-z0-9-]+\.)[a-z]+)/i", $element['#value'])) {
+      form_set_error('instagram', t('Please enter valid social information link.'));
+    }
   }
 }
 
