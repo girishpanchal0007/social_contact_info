@@ -368,7 +368,14 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
     $contact_elements = ['phone', 'mobile', 'fax'];
 
     // Contact elements.
-    $social_elements = ['facebook', 'linkedin', 'twitter', 'youtube', 'google_plus', 'instagram'];
+    $social_elements = [
+      'facebook',
+      'linkedin',
+      'twitter',
+      'youtube',
+      'google_plus',
+      'instagram',
+    ];
 
     // Email address validation.
     $contact_email = $values['contact_detail']['email']['value'];
@@ -381,7 +388,11 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
 
     // Number fields validation of content elements.
     foreach ($contact_elements as $contact_name) {
-      $raw_value = $form_state->getValue(['contact_detail', $contact_name, 'value']);
+      $raw_value = $form_state->getValue([
+        'contact_detail',
+        $contact_name,
+        'value',
+      ]);
       // Checking the entered value is numeric or not.
       if ((!empty($raw_value)) && (!preg_match('/^[0-9\-\(\)\/\+\s]*$/', $raw_value))) {
         $form_state->setError($contact_elements, $this->t('The @keys number @value is not valid, It must be numeric.', ['@keys' => $contact_name, '@value' => $raw_value]));
