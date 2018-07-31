@@ -362,7 +362,14 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
    */
   public function blockValidate($form, FormStateInterface $form_state) {
     parent::blockValidate($form, $form_state);
+
     $values = $form_state->getValues();
+    // Contact elements.
+    $contact_elements = ['phone', 'mobile', 'fax'];
+
+    // Contact elements.
+    $social_elements = ['facebook', 'linkedin', 'twitter', 'youtube', 'google_plus', 'instagram'];
+
     // Email address validation.
     $contact_email = $values['contact_detail']['email']['value'];
     if ($contact_email == '') {
@@ -370,6 +377,28 @@ class SocialContactInfo extends BlockBase implements BlockPluginInterface {
     }
     elseif ($contact_email != '' && !$this->isValidEmailAddress($contact_email)) {
       $form_state->setErrorByName('email', $this->t('The email address %mail is not valid.', ['%mail' => $contact_email]));
+    }
+
+    // Number fields validation of content elements.
+    foreach ($contact_elements as $contact_name) {
+      $raw_value = $form_state->getValue(['contact_detail', $contact_name, 'value']);
+      // Checking the entered value is numeric or not.
+      if ((!empty($raw_value)) && (!preg_match('/^[0-9\-\(\)\/\+\s]*$/', $raw_value))) {
+        $form_state->setError($contact_elements, $this->t('The @keys number @value is not valid, It must be numeric.', ['@keys' => $contact_name, '@value' => $raw_value]));
+      }
+      // Checking the length of numeric value.
+      if ((!empty($raw_value)) && (strlen($raw_value) < 5 || strlen($raw_value) > 20)) {
+        $form_state->setError($contact_elements, $this->t('The @keys number length should be in between 5 to 15 digit.', ['@keys' => $contact_name]));
+      }
+    }
+
+    // Domain URL validation.
+    foreach ($social_elements as $social_name) {
+      $raw_value = $form_state->getValue(['social_detail', $social_name, 'link']);
+      // Social fields domain validation.
+      if ((!empty($raw_value)) && (!preg_match("/^(?:https?:\/\/)?(?:[a-z0-9-]+\.)*((?:[a-z0-9-]+\.)[a-z]+)/i", $raw_value))) {
+        $form_state->setError($social_elements, $this->t('Please enter valid @keys link.', ['@keys' => $social_name]));
+      }
     }
   }
 
