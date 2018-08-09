@@ -5,15 +5,17 @@
  * Social Contact Information helps to add social & contact details for website.
  */
 
+use Drupal\Core\Routing\RouteMatchInterface;
+
 /**
  * Implements hook_help().
  */
-function social_contact_info_help($path, $arg) {
-  switch ($path) {
+function social_contact_info_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
     // Main module help for the block module.
-    case 'admin/help#social_contact_info':
-      return '<p>' . t('Social Contact information provides an option to display contact and social information on a block anywhere on your site. For example, Assign any region to the block where you want to add the Social Contact Information block ("Sidebar first", "Sidebar second", "Featured", "Content", "Header", "Footer", etc.), You can config your Social Contact Information block from <a href="@blocks">here</a>.', [
-        '@blocks' => url('admin/structure/block'),
+    case 'help.page.social_contact_info':
+      return '<p>' . t('Social Contact information provides an option to display contact and social information on a block anywhere on your site. For example, Assign any region to the block where you want to add the Social Contact Information block ("Sidebar first", "Sidebar second", "Featured", "Content", "Header", "Footer", etc.), You can config your Social Contact Information block from <a href=":blocks">here</a>.', [
+        ':blocks' => \Drupal::url('block.admin_display'),
       ]) . '</p>';
   }
 }
